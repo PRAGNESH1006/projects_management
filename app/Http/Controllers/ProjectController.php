@@ -31,7 +31,7 @@ class ProjectController extends BaseController
 
     public function show(Project $project): \Inertia\Response
     {
-        $project->load('users');
+        $project->load('users','client','creator','updater','tasks');
         return Inertia::render('Projects/Show', compact('project'));
     }
 

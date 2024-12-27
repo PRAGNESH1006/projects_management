@@ -42,10 +42,10 @@ class TaskController extends BaseController
 
     public function create(): Response
     {
-        $status = TaskStatusEnum::options();
+        $statuses = TaskStatusEnum::options();
         $employees = $this->userRepository->getAllUserByRole('employee');
         $projects = $this->projectRepository->getAll();
-        return Inertia::render('Tasks/Create', compact('employees', 'projects', 'status'));
+        return Inertia::render('Tasks/Create', compact('employees', 'projects', 'statuses'));
     }
 
     public function store(StoreTaskRequest $request): RedirectResponse

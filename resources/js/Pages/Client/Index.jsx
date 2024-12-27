@@ -1,9 +1,11 @@
 import UserCard from '@/Components/UserCard';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head,usePage } from '@inertiajs/react';
 import React from 'react';
 
 export default function Index({ clients }) {
+        const user = usePage().props.auth.user;
+    
     return (
         <AuthenticatedLayout>
             <Head title="Employees" />
@@ -19,7 +21,7 @@ export default function Index({ clients }) {
                         <div className="col-span-full text-center text-gray-500">No clients found</div>
                     ) : (
                         clients.map(client => (
-                            <UserCard key={client.id} user={client} />
+                            <UserCard key={client.id} user={client} role={user?.role} />
                         ))
                     )}
                 </div>
