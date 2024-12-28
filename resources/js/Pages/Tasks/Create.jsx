@@ -4,19 +4,21 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-
+import TextInput from '@/Components/TextInput'; 
+import ReactSelect from '@/Components/ReactSelect';
 import React from 'react'
 
 export default function Create({ employees, projects, statuses }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
+    // console.log(statuses)   
+    
+    const { data, setData, post, errors, reset } = useForm({
         name: '',
         description: '',
         project_id: '',
         assigned_to: '',
         start_date: '',
         end_date: '',
-        status: '',
+        status: '', 
     });
 
     return (
@@ -53,7 +55,7 @@ export default function Create({ employees, projects, statuses }) {
                         <InputError message={errors.name} className="mt-2" />
                     </div>
 
-                    <div className="mt-4">
+                    <div className="mt-4">  
                         <InputLabel htmlFor="description" value="Description" />
                         <TextInput
                             id="description"
@@ -74,7 +76,7 @@ export default function Create({ employees, projects, statuses }) {
                             name="project_id"
                             value={data.project_id}
                             onChange={(e) => setData('project_id', e.target.value)}
-                            className="mt-1 block w-full rounded-md "
+                            className="mt-1 block w-full rounded-md"
                         >
                             <option value="">Select a Project</option>
                             {projects.map((project) => (
@@ -85,12 +87,13 @@ export default function Create({ employees, projects, statuses }) {
                         </select>
                         <InputError message={errors.project_id} className="mt-2" />
                     </div>
+
                     <div className="mt-4">
                         <InputLabel htmlFor="assigned_to" value="Assign Employee" />
                         <select
                             id="assigned_to"
-                            name="assigned_to"
-                            value={data.employee_id}
+                            name="assigned_to" 
+                            value={data.assigned_to} 
                             onChange={(e) => setData('assigned_to', e.target.value)}
                             className="mt-1 block w-full rounded-md"
                         >
@@ -101,8 +104,9 @@ export default function Create({ employees, projects, statuses }) {
                                 </option>
                             ))}
                         </select>
-                        <InputError message={errors.employee_id} className="mt-2" />
+                        <InputError message={errors.assigned_to} className="mt-2" />  
                     </div>
+
                     <div className="mt-4">
                         <InputLabel htmlFor="start_date" value="Start Date" />
                         <TextInput
@@ -115,6 +119,7 @@ export default function Create({ employees, projects, statuses }) {
                         />
                         <InputError message={errors.start_date} className="mt-2" />
                     </div>
+
                     <div className="mt-4">
                         <InputLabel htmlFor="end_date" value="End Date" />
                         <TextInput
@@ -127,29 +132,25 @@ export default function Create({ employees, projects, statuses }) {
                         />
                         <InputError message={errors.end_date} className="mt-2" />
                     </div>
+
                     <div className="mt-4">
                         <InputLabel htmlFor="status" value="Status" />
-                        {/* <select
+                        <ReactSelect
                             id="status"
                             name="status"
                             value={data.status}
-                            onChange={(e) => setData('status', e.target.value)}
+                            onChange={(value) => setData('status', value?.value)}
+                            options={statuses}
                             className="mt-1 block w-full"
-                        >
-                            <option value="">Select a Status</option>
-                            {statuses.map((status) => (
-                                <option key={status} value={status}>
-                                    {status}
-                                </option>
-                            ))}
-                        </select> */}
-                        <InputError message={errors.statuses} className="mt-2" />
+                        />
+                        <InputError message={errors.status} className="mt-2" /> 
                     </div>
-                    <div className="mt-4">
-                        <PrimaryButton processing={processing}>Create Task</PrimaryButton>
+
+                    <div className="mt-12">
+                        <PrimaryButton>Create Task</PrimaryButton>
                     </div>
                 </form>
             </div>
         </AuthenticatedLayout>
-    )
+    );
 }

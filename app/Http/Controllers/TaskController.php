@@ -39,7 +39,7 @@ class TaskController extends BaseController
     {
         return Inertia::render('Tasks/Show', compact('task'));
     }
-
+ 
     public function create(): Response
     {
         $statuses = TaskStatusEnum::options();

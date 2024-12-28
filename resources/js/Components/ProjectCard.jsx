@@ -26,14 +26,11 @@ export default function ProjectCard({ project, role }) {
     return (
         <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden">
             <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-4 h-[1rem]">
                     <h2 className="text-xl font-bold text-gray-900">{project?.name}</h2>
-                    <span className="px-3 py-1 text-xs font-semibold text-white bg-blue-500 rounded-full">
-                        {project?.name.charAt(0).toUpperCase() + project?.name.charAt(1).toUpperCase()}
-                    </span>
                 </div>
-                <p className="text-gray-600 mb-4">{truncatedDescription}</p>
-                <div className="flex justify-between items-center text-sm">
+                <p className="text-gray-600 text-sm mb-4 h-[4rem] ">{truncatedDescription}</p>
+                <div className="flex justify-between items-center text-sm h-[1rem]">
                     <Link
                         href={route('projects.show', project?.id)}
                         className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200"

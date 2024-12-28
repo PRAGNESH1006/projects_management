@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Traits;
-
+use Illuminate\Support\Str;
 use BackedEnum;
 
 trait OptionsTrait
@@ -9,13 +9,18 @@ trait OptionsTrait
     public static function options(): array
     {
         $cases = static::cases();
+        $options = [];
+        foreach ($cases as $case) {
+            $label = $case->name;
+            if (Str::contains($label, '_')) {
+                $label = Str::replace('_', ' ', $label);
+            }
+            $options[] = [
+                'value' => $case->value,
+                'label' => Str::title($label),
+            ];
+        }
 
-        $options = isset($cases[0]) && $cases[0] instanceof BackedEnum
-            ? array_column($cases, 'name', 'value')
-            : array_column($cases, 'name');
-
-        return array_map(function ($str) {
-            return str_replace('_', ' ', $str);
-        }, $options);
+        return $options;
     }
 }

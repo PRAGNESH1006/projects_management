@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TaskStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,13 +28,14 @@ class Task extends Model
     ];
 
     protected $casts = [
+        'status' => TaskStatusEnum::class ,
         'start_date' => 'datetime',
         'end_date' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
-    protected static function boot(): void 
+    protected static function boot(): void
     {
         parent::boot();
 
@@ -42,7 +44,7 @@ class Task extends Model
                 $model->{$model->getKeyName()} = Str::uuid()->toString();
             }
         });
-    } 
+    }
 
     public function project(): BelongsTo
     {
