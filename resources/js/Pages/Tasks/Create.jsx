@@ -81,7 +81,7 @@ export default function Create({ employees, projects, statuses }) {
                             <option value="">Select a Project</option>
                             {projects.map((project) => (
                                 <option key={project.id} value={project.id}>
-                                    {project.name}
+                                    {project.title}
                                 </option>
                             ))}
                         </select>
@@ -146,7 +146,7 @@ export default function Create({ employees, projects, statuses }) {
                         <InputError message={errors.status} className="mt-2" /> 
                     </div>
 
-                    <div className="mt-12">
+                    <div className="mt-10">
                         <PrimaryButton>Create Task</PrimaryButton>
                     </div>
                 </form>

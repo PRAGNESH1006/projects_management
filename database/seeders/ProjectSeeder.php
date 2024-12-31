@@ -20,7 +20,7 @@ class ProjectSeeder extends Seeder
             Project::updateOrCreate([
                 'id' => Str::uuid(),
             ], [
-                'name' => 'Project Horizon',
+                'title' => 'Project Horizon',
                 'description' => 'A cutting-edge research and development project aimed at launching a new software platform that revolutionizes the way businesses manage their data workflows. The goal is to improve operational efficiency and provide clients with real-time insights into their business processes.',
                 'client_id' => $client[0]->id,
                 'created_by' => $admin->id,
@@ -32,7 +32,7 @@ class ProjectSeeder extends Seeder
             Project::updateOrCreate([
                 'id' => Str::uuid(),
             ], [
-                'name' => 'Project Titan',
+                'title' => 'Project Titan',
                 'description' => 'A large-scale infrastructure project focused on upgrading the company\'s IT infrastructure. The project will involve data center expansions, cloud migrations, and security enhancements to ensure scalability and future-proofing of the organization\'s technology stack.',
                 'client_id' => $client[1]->id,
                 'created_by' => $admin->id,
@@ -44,7 +44,7 @@ class ProjectSeeder extends Seeder
             Project::updateOrCreate([
                 'id' => Str::uuid(),
             ], [
-                'name' => 'Project Eclipse',
+                'title' => 'Project Eclipse',
                 'description' => 'A collaborative product development initiative designed to create a new consumer-facing mobile app that integrates with wearable devices. This app will provide personalized fitness recommendations, track user progress, and offer insights based on machine learning algorithms.',
                 'client_id' => $client[2]->id,
                 'created_by' => $admin->id,

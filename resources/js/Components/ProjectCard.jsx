@@ -27,7 +27,7 @@ export default function ProjectCard({ project, role }) {
         <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden">
             <div className="p-6">
                 <div className="flex items-center justify-between mb-4 h-[1rem]">
-                    <h2 className="text-xl font-bold text-gray-900">{project?.name}</h2>
+                    <h2 className="text-xl font-bold text-gray-900">{project?.title}</h2>
                 </div>
                 <p className="text-gray-600 text-sm mb-4 h-[4rem] ">{truncatedDescription}</p>
                 <div className="flex justify-between items-center text-sm h-[1rem]">
@@ -77,4 +77,5 @@ ProjectCard.propTypes = {
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     }).isRequired,
     role: PropTypes.oneOf(['employee', 'client', 'admin']).isRequired,
+    
 };

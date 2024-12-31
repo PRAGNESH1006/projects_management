@@ -16,9 +16,9 @@ export default function TaskCard({ task, role }) {
         ? task?.description.slice(0, 100) + '...'
         : task?.description;
 
-    const shortName = task?.name.length > 20
-        ? task?.name.slice(0, 20) + '...'
-        : task?.name;
+    const shortName = task?.title.length > 20
+        ? task?.title.slice(0, 20) + '...'
+        : task?.title;
 
     const handleDelete = (e) => {
         e.preventDefault();

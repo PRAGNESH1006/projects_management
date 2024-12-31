@@ -27,7 +27,7 @@ const ProjectDetails = ({ project }) => {
                     <div className="bg-white shadow-xl rounded-lg overflow-hidden">
                         <div className="bg-gradient-to-r from-blue-500 to-blue-700 p-6 sm:p-10">
                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
-                                <h1 className="text-3xl font-bold text-white">{project?.name}</h1>
+                                <h1 className="text-3xl font-bold text-white">{project?.title}</h1>
                                 <div className="flex flex-wrap gap-2">
                                     <Link
                                         href={route(user.role === 'admin' ? 'projects.index' : `${user.role}.projects`, user.id)}
@@ -104,7 +104,7 @@ const ProjectDetails = ({ project }) => {
                                     <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                                         {project.tasks.map((task) => (
                                             <div key={task.id} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-                                                <h3 className="font-semibold text-lg text-gray-900">{task.name}</h3>
+                                                <h3 className="font-semibold text-lg text-gray-900">{task.title}</h3>
                                                 <p className="text-gray-600 mt-2">{task.description}</p>
                                                 <div className="mt-4 flex justify-between items-center">
                                                     <span

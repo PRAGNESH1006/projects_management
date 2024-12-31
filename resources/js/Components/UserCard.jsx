@@ -29,7 +29,7 @@ export default function UserCard({ user, role }) {
 
             <div className="mt-4 text-center">
                 <span className={`px-3 py-1 text-xs font-medium rounded-full ${roleClass}`}>
-                    {user?.role.charAt(0).toUpperCase() + user?.role.slice(1)}
+                    {user?.role?.charAt(0).toUpperCase() + user?.role.slice(1)}
                 </span>
             </div>
 

@@ -26,7 +26,7 @@ class TaskSeeder extends Seeder
                 Task::updateOrCreate([
                     'id' => Str::uuid(),
                 ], [
-                    'name' => "Project Kickoff for {$project->name}",
+                    'title' => "Project Kickoff for {$project->title}",
                     'description' => "Initiate the project with a kickoff meeting to align team members on objectives, deliverables, and timelines. Define roles and responsibilities, and establish communication protocols.",
                     'status' => 'pending',
                     'project_id' => $project->id,
@@ -41,7 +41,7 @@ class TaskSeeder extends Seeder
                 Task::updateOrCreate([
                     'id' => Str::uuid(),
                 ], [
-                    'name' => "Feature Development for {$project->name}",
+                    'title' => "Feature Development for {$project->title}",
                     'description' => "Begin development of the key features identified in the project requirements document. This includes coding, designing, and testing the features based on agreed-upon specifications.",
                     'status' => 'in_progress',
                     'project_id' => $project->id,
@@ -56,7 +56,7 @@ class TaskSeeder extends Seeder
                 Task::updateOrCreate([
                     'id' => Str::uuid(),
                 ], [
-                    'name' => "Quality Assurance for {$project->name}",
+                    'title' => "Quality Assurance for {$project->title}",
                     'description' => "Perform thorough testing and quality assurance procedures to ensure that all features meet the required standards. This includes bug fixing, performance testing, and user acceptance testing.",
                     'status' => 'completed',
                     'project_id' => $project->id,

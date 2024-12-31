@@ -53,10 +53,10 @@ class User extends Authenticatable
         });
     }
 
-    // public function projects(): BelongsToMany
-    // {
-    //     return $this->belongsToMany(Project::class, 'project_employees', 'user_id', 'project_id');
-    // }
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class, 'project_employees', 'user_id', 'project_id');
+    }
 
     public function hasRole(RoleEnum $role): bool
     {
@@ -64,53 +64,53 @@ class User extends Authenticatable
     }
 
 
-    // public function assignedTasks(): HasMany
-    // {
-    //     return $this->hasMany(Task::class, 'assigned_to');
-    // }
+    public function assignedTasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'assigned_to');
+    }
 
-    // public function createdTasks(): HasMany
-    // {
-    //     return $this->hasMany(Task::class, 'created_by');
-    // }
+    public function createdTasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'created_by');
+    }
 
-    // public function updatedTask(): HasMany
-    // {
-    //     return $this->hasMany(Task::class, 'updated_by');
-    // }
+    public function updatedTask(): HasMany
+    {
+        return $this->hasMany(Task::class, 'updated_by');
+    }
 
-    // public function taskProject(): BelongsTo
-    // {
-    //     return $this->belongsTo(Project::class, 'project_id');
-    // }
+    public function taskProject(): BelongsTo
+    {
+        return $this->belongsTo(Project::class, 'project_id');
+    }
 
-    // public function clientProjects(): HasMany
-    // {
-    //     return $this->hasMany(Project::class, 'client_id');
-    // }
+    public function clientProjects(): HasMany
+    {
+        return $this->hasMany(Project::class, 'client_id');
+    }
 
-    // public function createdProjects(): HasMany
-    // {
-    //     return $this->hasMany(Project::class, 'created_by');
-    // }
+    public function createdProjects(): HasMany
+    {
+        return $this->hasMany(Project::class, 'created_by');
+    }
 
-    // public function updatedProjects(): HasMany
-    // {
-    //     return $this->hasMany(Project::class, 'updated_by');
-    // }
+    public function updatedProjects(): HasMany
+    {
+        return $this->hasMany(Project::class, 'updated_by');
+    }
 
-    // public function createdBy(): BelongsTo
-    // {
-    //     return $this->belongsTo(User::class, 'created_by');
-    // }
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 
-    // public function updatedBy(): BelongsTo
-    // {
-    //     return $this->belongsTo(User::class, 'updated_by');
-    // }
+    public function updatedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
 
-    // public function clientDetail(): HasOne
-    // {
-    //     return $this->hasOne(ClientDetail::class, 'user_id', 'id');
-    // }
+    public function clientDetail(): HasOne
+    {
+        return $this->hasOne(ClientDetail::class, 'user_id', 'id');
+    }
 }

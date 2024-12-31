@@ -20,12 +20,12 @@ export default function Welcome({ auth }) {
                         Dashboard
                     </Link>
                 ) : (
-                        <Link
-                            href={route('login')}
-                            className="text-white text-center px-4 py-2 hover:bg-gray-700 rounded transition duration-300 ease-in-out"
-                        >
-                            Log in
-                        </Link>
+                    <Link
+                        href={route('login')}
+                        className="text-white text-center px-4 py-2 hover:bg-gray-700 rounded transition duration-300 ease-in-out"
+                     >
+                        Login
+                    </Link>
                 )}
             </nav>
 
@@ -38,4 +38,4 @@ export default function Welcome({ auth }) {
             </div>
         </>
     );
-}
+}       
