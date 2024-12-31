@@ -8,7 +8,7 @@ import TextInput from '@/Components/TextInput';
 
 export default function Create({ clients, employees }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
+        title: '',
         description: '',
         client_id: '',
         employee_ids: [],
@@ -34,18 +34,18 @@ export default function Create({ clients, employees }) {
 
                 <form onSubmit={submit} className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div className="mt-4">
-                        <InputLabel htmlFor="name" value="Project Name" />
+                        <InputLabel htmlFor="title" value="Project Title" />
                         <TextInput
-                            id="name"
+                            id="title"
                             type="text"
-                            name="name"
-                            value={data.name}
-                            className="mt-1 block w-full"
-                            autoComplete="name"
+                            name="title"
+                            value={data.title}
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                            autoComplete="title"
                             isFocused={true}
-                            onChange={(e) => setData('name', e.target.value)}
+                            onChange={(e) => setData('title', e.target.value)}
                         />
-                        <InputError message={errors.name} className="mt-2" />
+                        <InputError message={errors.title} className="mt-2" />
                     </div>
 
                     <div className="mt-4">
@@ -55,7 +55,7 @@ export default function Create({ clients, employees }) {
                             type="text"
                             name="description"
                             value={data.description}
-                            className="mt-1 block w-full"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                             autoComplete="description"
                             onChange={(e) => setData('description', e.target.value)}
                         />
@@ -68,7 +68,7 @@ export default function Create({ clients, employees }) {
                             id="client_id"
                             name="client_id"
                             value={data.client_id}
-                            className="mt-1 block w-full rounded-md"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                             onChange={(e) => setData('client_id', e.target.value)}
                         >
                             <option value="">Select Client</option>
@@ -92,7 +92,6 @@ export default function Create({ clients, employees }) {
                                         className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                                         onChange={(e) => {
                                             const checked = e.target.checked;
-                                        // checked={data.employee_ids.includes(employee.id)}
                                             setData('employee_ids', checked
                                                 ? [...data.employee_ids, employee.id]
                                                 : data.employee_ids.filter(id => id !== employee.id));
@@ -114,7 +113,7 @@ export default function Create({ clients, employees }) {
                             type="date"
                             name="start_date"
                             value={data.start_date}
-                            className="mt-1 block w-full"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                             onChange={(e) => setData('start_date', e.target.value)}
                         />
                         <InputError message={errors.start_date} className="mt-2" />
@@ -127,14 +126,16 @@ export default function Create({ clients, employees }) {
                             type="date"
                             name="end_date"
                             value={data.end_date}
-                            className="mt-1 block w-full"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                             onChange={(e) => setData('end_date', e.target.value)}
                         />
                         <InputError message={errors.end_date} className="mt-2" />
                     </div>
 
-                    <div className="mt-4">
-                        <PrimaryButton processing={processing}>Create Project</PrimaryButton>
+                    <div className="mb-6 ">
+                        <PrimaryButton processing={processing} className=" bg-indigo-600 hover:bg-indigo-700 transition duration-300 ease-in-out transform">
+                            Create Project
+                        </PrimaryButton>
                     </div>
                 </form>
             </div>

@@ -25,7 +25,7 @@ class UpdateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'status' => ['required', 'string', 'max:255', new Enum(TaskStatusEnum::class)],
             'start_date' => 'required|date',
@@ -42,7 +42,7 @@ class UpdateTaskRequest extends FormRequest
     public function getUpdateableFields($projectId): array
     {
         return [
-            'name' => $this->input('name'),
+            'title' => $this->input('title'),
             'description' => $this->input('description'),
             'status' => $this->input('status'),
             'project_id' => $projectId,

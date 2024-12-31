@@ -25,7 +25,7 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'status' => ['required', 'string', 'max:255', new Enum(TaskStatusEnum::class)],
             'project_id' => 'required|exists:projects,id',
@@ -43,7 +43,7 @@ class StoreTaskRequest extends FormRequest
     public function getInsertableFields(): array
     {
         return [
-            'name' => $this->input('name'),
+            'title' => $this->input('title'),
             'description' => $this->input('description'),
             'status' => $this->input('status'),
             'project_id' => $this->input('project_id'),

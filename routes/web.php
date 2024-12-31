@@ -7,7 +7,6 @@ use App\Http\Controllers\EmployeeDashboardController;
 use App\Http\Controllers\ClientDashboardController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
-use App\Http\Controllers\ClientDetailController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;

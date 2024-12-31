@@ -24,12 +24,12 @@ class UpdateProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', Rule::unique('projects')->ignore($this->project)],
+            'title' => ['required', 'string', 'max:255', Rule::unique('projects')->ignore($this->project)],
             'description' => 'required|string',
             'client_id' => 'required|string|exists:users,id',
             'start_date' => 'required|date',
-            'employee_ids' => 'required|array', 
-            'employee_ids.*' => 'exists:users,id', 
+            'employee_ids' => 'required|array',
+            'employee_ids.*' => 'exists:users,id',
             'end_date' => 'required|date|after_or_equal:start_date',
         ];
     }
@@ -37,7 +37,7 @@ class UpdateProjectRequest extends FormRequest
     public function getInsertableFields(): array
     {
         return [
-            'name' => $this->input('name'),
+            'title' => $this->input('title'),
             'description' => $this->input('description'),
             'client_id' => $this->input('client_id'),
             'updated_by' => Auth::user()->id,

@@ -12,7 +12,7 @@ export default function Create({ employees, projects, statuses }) {
     // console.log(statuses)   
     
     const { data, setData, post, errors, reset } = useForm({
-        name: '',
+        title: '',
         description: '',
         project_id: '',
         assigned_to: '',
@@ -24,9 +24,9 @@ export default function Create({ employees, projects, statuses }) {
     return (
         <AuthenticatedLayout>
             <Head title="Create Task" />
-
-            <div className="container mx-auto px-4">
-                <div className="flex flex-col md:flex-row justify-between items-center py-4 mb-6 border-b">
+ 
+            <div className="container mx-auto px-4 max-h-full ">
+                <div className="flex flex-col md:flex-row justify-between items-center py-4 mb-6 border-b max-h-full">
                     <h1 className="text-3xl font-semibold text-gray-800">Create Task</h1>
                     <Link href={route('tasks.index')} className="mt-4 md:mt-0 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform">
                         Back to Tasks
@@ -38,19 +38,19 @@ export default function Create({ employees, projects, statuses }) {
                         e.preventDefault();
                         post(route('tasks.store'));
                     }}
-                    className="grid grid-cols-1 gap-6 md:grid-cols-2"
+                    className="grid grid-cols-1 gap-6 md:grid-cols-2 overflow-y-auto max-h-full"
                 >
                     <div className="mt-4">
                         <InputLabel htmlFor="name" value="Task Name" />
                         <TextInput
-                            id="name"
+                            id="title"
                             type="text"
-                            name="name"
-                            value={data.name}
+                            name="title"
+                            value={data.title}
                             className="mt-1 block w-full"
-                            autoComplete="name"
+                            autoComplete="title"
                             isFocused={true}
-                            onChange={(e) => setData('name', e.target.value)}
+                            onChange={(e) => setData('title', e.target.value)}
                         />
                         <InputError message={errors.name} className="mt-2" />
                     </div>
@@ -133,6 +133,18 @@ export default function Create({ employees, projects, statuses }) {
                         <InputError message={errors.end_date} className="mt-2" />
                     </div>
 
+                    <div className="mt-4">
+                        <InputLabel htmlFor="status" value="Status" />
+                        <ReactSelect
+                            id="status"
+                            name="status"
+                            value={data.status}
+                            onChange={(value) => setData('status', value?.value)}
+                            options={statuses}
+                            className="mt-1 block w-full"
+                        />
+                        <InputError message={errors.status} className="mt-2" /> 
+                    </div>
                     <div className="mt-4">
                         <InputLabel htmlFor="status" value="Status" />
                         <ReactSelect

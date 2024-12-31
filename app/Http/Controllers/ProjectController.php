@@ -31,7 +31,7 @@ class ProjectController extends BaseController
 
     public function show(Project $project): \Inertia\Response
     {
-        $project->load('users','client','creator','updater','tasks');
+        $project->load('users', 'client', 'creator', 'updater', 'tasks');
         return Inertia::render('Projects/Show', compact('project'));
     }
 
@@ -55,6 +55,7 @@ class ProjectController extends BaseController
         try {
             $project = $this->projectRepository->store($request->getInsertableFields());
 
+            dd($$request->getInsertableFields());
             if ($request->has('employee_ids') && !empty($request->employee_ids)) {
                 $project->users()->attach($request->employee_ids);
             }

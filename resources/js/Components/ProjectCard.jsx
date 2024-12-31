@@ -1,70 +1,76 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useForm } from '@inertiajs/react';
-import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
+import { Link,useForm  } from '@inertiajs/react';
+import { FaEllipsisV } from 'react-icons/fa';
+import DropdownMenu from './DropdownMenu';
 
 export default function ProjectCard({ project, role }) {
     const { delete: destroy } = useForm();
     const [isDeleting, setIsDeleting] = useState(false);
-    const truncatedDescription = project?.description.length > 100
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+    };
+
+    const closeDropdown = () => {
+        setDropdownOpen(false);
+    };
+
+    const shortDescription = project?.description.length > 100
         ? project?.description.slice(0, 100) + '...'
         : project?.description;
 
-    const handleDelete = (e) => {
-        e.preventDefault();
-        if (window.confirm('Are you sure you want to delete this project?')) {
-            setIsDeleting(true);
-            destroy(route('projects.destroy', project.id), {
-                preserveState: true,
-                preserveScroll: true,
-                onSuccess: () => setIsDeleting(false),
-                onError: () => setIsDeleting(false),
-            });
+    const shortName = project?.title.length > 20
+        ? project?.title.slice(0, 20) + '...'
+        : project?.title;
+
+
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 'pending': return 'bg-yellow-200 text-yellow-800';
+            case 'in-progress': return 'bg-blue-200 text-blue-800';
+            case 'completed': return 'bg-green-200 text-green-800';
+            default: return 'bg-gray-200 text-gray-800';
         }
     };
 
     return (
-        <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-            <div className="p-6">
-                <div className="flex items-center justify-between mb-4 h-[1rem]">
-                    <h2 className="text-xl font-bold text-gray-900">{project?.title}</h2>
-                </div>
-                <p className="text-gray-600 text-sm mb-4 h-[4rem] ">{truncatedDescription}</p>
-                <div className="flex justify-between items-center text-sm h-[1rem]">
-                    <Link
-                        href={route('projects.show', project?.id)}
-                        className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200"
-                    >
-                        <FaEye className="mr-2" />
-                        <span>View Details</span>
-                    </Link>
+        <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out max-w-xs w-full">
+            <div className='flex justify-between items-center mb-4'>
+                <h2 className="text-lg font-semibold text-gray-800 truncate">{shortName}</h2>
+                <div className='flex items-center'>
                     {role === "admin" && (
-                        <div className="flex space-x-4">
-                            <Link
-                                href={route('projects.edit', project?.id)}
-                                className="inline-flex items-center text-yellow-600 hover:text-yellow-800 transition-colors duration-200"
-                            >
-                                <FaEdit className="mr-2" />
-                                <span>Edit</span>
-                            </Link>
-                            <form
-                                action={route('projects.destroy', project?.id)}
-                                method="POST"
-                                onSubmit={handleDelete}
-                            >
-                                <input type="hidden" name="_method" value="DELETE" />
-                                <button
-                                    type="submit"
-                                    className="flex items-center text-red-600 hover:text-red-800 space-x-2"
-                                    disabled={isDeleting}
-                                >
-                                    <FaTrash />
-                                    {isDeleting ? 'Deleting...' : 'Delete'}
-                                </button>
-                            </form>
+                        <div className='relative'>
+                            <FaEllipsisV
+                                className='text-xl text-gray-600 cursor-pointer'
+                                onClick={toggleDropdown}
+                            />
+                            <DropdownMenu
+                                isOpen={dropdownOpen}
+                                onClose={closeDropdown}
+                                onView={route('projects.show', project.id)}
+                                onEdit={route('projects.edit', project.id)}
+                                item={project}
+                                type="projects"  
+                                destroy={destroy}  
+                                setIsDeleting={setIsDeleting}
+                            />
+
                         </div>
                     )}
                 </div>
+            </div>
+
+            <p className="text-gray-600 text-sm mt-2 h-20 overflow-hidden">{shortDescription}</p>
+
+            <div className="mt-4 flex justify-end">
+                <Link
+                    href={route('projects.show', project?.id)}
+                    className="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md transition-colors duration-300"
+                >
+                    View Details
+                </Link>
             </div>
         </div>
     );
@@ -72,10 +78,10 @@ export default function ProjectCard({ project, role }) {
 
 ProjectCard.propTypes = {
     project: PropTypes.shape({
-        name: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     }).isRequired,
     role: PropTypes.oneOf(['employee', 'client', 'admin']).isRequired,
-    
+
 };

@@ -24,7 +24,7 @@ class StoreProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', Rule::unique('projects')],
+            'title' => ['required', 'string', 'max:255', Rule::unique('projects')],
             'description' => 'required|string',
             'client_id' => 'required|string|exists:users,id',
             'employee_ids' => 'required|array',
@@ -37,8 +37,9 @@ class StoreProjectRequest extends FormRequest
 
     public function getInsertableFields(): array
     {
+        // dd("sjhgdjdgj");
         return [
-            'name' => $this->input('name'),
+            'title' => $this->input('title'),
             'description' => $this->input('description'),
             'client_id' => $this->input('client_id'),
             'created_by' => Auth::user()->id,
