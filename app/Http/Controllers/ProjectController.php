@@ -54,12 +54,9 @@ class ProjectController extends BaseController
         DB::beginTransaction();
         try {
             $project = $this->projectRepository->store($request->getInsertableFields());
-
-            dd($$request->getInsertableFields());
             if ($request->has('employee_ids') && !empty($request->employee_ids)) {
                 $project->users()->attach($request->employee_ids);
             }
-
             DB::commit();
             return $this->sendRedirectResponse(route('projects.index'), 'Project Added Successfully');
         } catch (Throwable $e) {

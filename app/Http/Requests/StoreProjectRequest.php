@@ -37,7 +37,6 @@ class StoreProjectRequest extends FormRequest
 
     public function getInsertableFields(): array
     {
-        // dd("sjhgdjdgj");
         return [
             'title' => $this->input('title'),
             'description' => $this->input('description'),

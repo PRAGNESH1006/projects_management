@@ -1,168 +1,155 @@
+import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-
 import { Head, Link, useForm } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput'; 
 import ReactSelect from '@/Components/ReactSelect';
-import React from 'react'
 
 export default function Create({ employees, projects, statuses }) {
-    // console.log(statuses)   
-    
     const { data, setData, post, errors, reset } = useForm({
         title: '',
         description: '',
-        project_id: '',
-        assigned_to: '',
+        project_id: null,
+        assigned_to: null,
         start_date: '',
         end_date: '',
-        status: '', 
+        status: null, 
     });
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        post(route('tasks.store'));
+    };
 
     return (
         <AuthenticatedLayout>
             <Head title="Create Task" />
  
-            <div className="container mx-auto px-4 max-h-full ">
-                <div className="flex flex-col md:flex-row justify-between items-center py-4 mb-6 border-b max-h-full">
-                    <h1 className="text-3xl font-semibold text-gray-800">Create Task</h1>
-                    <Link href={route('tasks.index')} className="mt-4 md:mt-0 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform">
+            <div className="container mx-auto px-4 py-8">
+                <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+                    <h1 className="text-3xl font-bold text-gray-900">Create New Task</h1>
+                    <Link 
+                        href={route('tasks.index')} 
+                        className="mt-4 md:mt-0 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow transition duration-300 ease-in-out flex items-center"
+                    >
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
                         Back to Tasks
                     </Link>
                 </div>
 
-                <form
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        post(route('tasks.store'));
-                    }}
-                    className="grid grid-cols-1 gap-6 md:grid-cols-2 overflow-y-auto max-h-full"
-                >
-                    <div className="mt-4">
-                        <InputLabel htmlFor="name" value="Task Name" />
-                        <TextInput
-                            id="title"
-                            type="text"
-                            name="title"
-                            value={data.title}
-                            className="mt-1 block w-full"
-                            autoComplete="title"
-                            isFocused={true}
-                            onChange={(e) => setData('title', e.target.value)}
-                        />
-                        <InputError message={errors.name} className="mt-2" />
-                    </div>
+                <div className="bg-white shadow-md rounded-lg p-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <InputLabel htmlFor="title" value="Task Name" />
+                                <TextInput
+                                    id="title"
+                                    type="text"
+                                    name="title"
+                                    value={data.title}
+                                    className="mt-1 block w-full"
+                                    autoComplete="title"
+                                    isFocused={true}
+                                    onChange={(e) => setData('title', e.target.value)}
+                                />
+                                <InputError message={errors.title} className="mt-2" />
+                            </div>
 
-                    <div className="mt-4">  
-                        <InputLabel htmlFor="description" value="Description" />
-                        <TextInput
-                            id="description"
-                            type="text"
-                            name="description"
-                            value={data.description}
-                            className="mt-1 block w-full"
-                            autoComplete="description"
-                            onChange={(e) => setData('description', e.target.value)}
-                        />
-                        <InputError message={errors.description} className="mt-2" />
-                    </div>
+                            <div>
+                                <InputLabel htmlFor="project_id" value="Project" />
+                                <ReactSelect
+                                    id="project_id"
+                                    name="project_id"
+                                    value={data.project_id}
+                                    onChange={(option) => setData('project_id', option?.value)}
+                                    options={projects.map(project => ({ value: project.id, label: project.title }))}
+                                    placeholder="Select a Project"
+                                    className="mt-1 block w-full"
+                                />
+                                <InputError message={errors.project_id} className="mt-2" />
+                            </div>
 
-                    <div className="mt-4">
-                        <InputLabel htmlFor="project_id" value="Project" />
-                        <select
-                            id="project_id"
-                            name="project_id"
-                            value={data.project_id}
-                            onChange={(e) => setData('project_id', e.target.value)}
-                            className="mt-1 block w-full rounded-md"
-                        >
-                            <option value="">Select a Project</option>
-                            {projects.map((project) => (
-                                <option key={project.id} value={project.id}>
-                                    {project.title}
-                                </option>
-                            ))}
-                        </select>
-                        <InputError message={errors.project_id} className="mt-2" />
-                    </div>
+                            <div>
+                                <InputLabel htmlFor="assigned_to" value="Assign Employee" />
+                                <ReactSelect
+                                    id="assigned_to"
+                                    name="assigned_to" 
+                                    value={data.assigned_to}
+                                    onChange={(option) => setData('assigned_to', option?.value)}
+                                    options={employees.map(employee => ({ value: employee.id, label: employee.name }))}
+                                    placeholder="Select an Employee"
+                                    className="mt-1 block w-full"
+                                />
+                                <InputError message={errors.assigned_to} className="mt-2" />  
+                            </div>
 
-                    <div className="mt-4">
-                        <InputLabel htmlFor="assigned_to" value="Assign Employee" />
-                        <select
-                            id="assigned_to"
-                            name="assigned_to" 
-                            value={data.assigned_to} 
-                            onChange={(e) => setData('assigned_to', e.target.value)}
-                            className="mt-1 block w-full rounded-md"
-                        >
-                            <option value="">Select an Employee</option>
-                            {employees.map((employee) => (
-                                <option key={employee.id} value={employee.id}>
-                                    {employee.name}
-                                </option>
-                            ))}
-                        </select>
-                        <InputError message={errors.assigned_to} className="mt-2" />  
-                    </div>
+                            <div>
+                                <InputLabel htmlFor="status" value="Status" />
+                                <ReactSelect
+                                    id="status"
+                                    name="status"
+                                    value={data.status}
+                                    onChange={(option) => setData('status', option?.value)}
+                                    options={statuses}
+                                    placeholder="Select Status"
+                                    className="mt-1 block w-full"
+                                />
+                                <InputError message={errors.status} className="mt-2" /> 
+                            </div>
 
-                    <div className="mt-4">
-                        <InputLabel htmlFor="start_date" value="Start Date" />
-                        <TextInput
-                            id="start_date"
-                            type="date"
-                            name="start_date"
-                            value={data.start_date}
-                            className="mt-1 block w-full"
-                            onChange={(e) => setData('start_date', e.target.value)}
-                        />
-                        <InputError message={errors.start_date} className="mt-2" />
-                    </div>
+                            <div>
+                                <InputLabel htmlFor="start_date" value="Start Date" />
+                                <TextInput
+                                    id="start_date"
+                                    type="date"
+                                    name="start_date"
+                                    value={data.start_date}
+                                    className="mt-1 block w-full"
+                                    onChange={(e) => setData('start_date', e.target.value)}
+                                />
+                                <InputError message={errors.start_date} className="mt-2" />
+                            </div>
 
-                    <div className="mt-4">
-                        <InputLabel htmlFor="end_date" value="End Date" />
-                        <TextInput
-                            id="end_date"
-                            type="date"
-                            name="end_date"
-                            value={data.end_date}
-                            className="mt-1 block w-full"
-                            onChange={(e) => setData('end_date', e.target.value)}
-                        />
-                        <InputError message={errors.end_date} className="mt-2" />
-                    </div>
+                            <div>
+                                <InputLabel htmlFor="end_date" value="End Date" />
+                                <TextInput
+                                    id="end_date"
+                                    type="date"
+                                    name="end_date"
+                                    value={data.end_date}
+                                    className="mt-1 block w-full"
+                                    onChange={(e) => setData('end_date', e.target.value)}
+                                />
+                                <InputError message={errors.end_date} className="mt-2" />
+                            </div>
+                        </div>
 
-                    <div className="mt-4">
-                        <InputLabel htmlFor="status" value="Status" />
-                        <ReactSelect
-                            id="status"
-                            name="status"
-                            value={data.status}
-                            onChange={(value) => setData('status', value?.value)}
-                            options={statuses}
-                            className="mt-1 block w-full"
-                        />
-                        <InputError message={errors.status} className="mt-2" /> 
-                    </div>
-                    <div className="mt-4">
-                        <InputLabel htmlFor="status" value="Status" />
-                        <ReactSelect
-                            id="status"
-                            name="status"
-                            value={data.status}
-                            onChange={(value) => setData('status', value?.value)}
-                            options={statuses}
-                            className="mt-1 block w-full"
-                        />
-                        <InputError message={errors.status} className="mt-2" /> 
-                    </div>
+                        <div>
+                            <InputLabel htmlFor="description" value="Description" />
+                            <textarea
+                                id="description"
+                                name="description"
+                                value={data.description}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                rows="4"
+                                onChange={(e) => setData('description', e.target.value)}
+                            />
+                            <InputError message={errors.description} className="mt-2" />
+                        </div>
 
-                    <div className="mt-10">
-                        <PrimaryButton>Create Task</PrimaryButton>
-                    </div>
-                </form>
+                        <div className="flex items-center justify-end mt-6">
+                            <PrimaryButton className="ml-4">
+                                Create Task
+                            </PrimaryButton>
+                        </div>
+                    </form>
+                </div>
             </div>
         </AuthenticatedLayout>
     );
 }
+

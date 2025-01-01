@@ -16,7 +16,7 @@ class Task extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'name',
+        'title',
         'description',
         'status',
         'project_id',
@@ -28,7 +28,7 @@ class Task extends Model
     ];
 
     protected $casts = [
-        'status' => TaskStatusEnum::class ,
+        'status' => TaskStatusEnum::class,
         'start_date' => 'datetime',
         'end_date' => 'datetime',
         'created_at' => 'datetime',

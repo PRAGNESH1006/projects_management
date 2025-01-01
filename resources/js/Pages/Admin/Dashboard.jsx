@@ -21,7 +21,6 @@ export default function Dashboard({
                         Create New Admin
                     </button>
                 </div>
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div className="bg-white rounded-lg shadow-md overflow-hidden">
                         <div className="p-6">
@@ -49,8 +48,6 @@ export default function Dashboard({
                             </div>
                         </div>
                     </div>
-
-                    {/* Clients Section */}
                     <div className="bg-white rounded-lg shadow-md overflow-hidden">
                         <div className="p-6">
                             <div className="flex items-center justify-between mb-4">
@@ -77,8 +74,6 @@ export default function Dashboard({
                             </div>
                         </div>
                     </div>
-
-                    {/* Projects Section */}
                     <div className="bg-white rounded-lg shadow-md overflow-hidden">
                         <div className="p-6">
                             <div className="flex items-center justify-between mb-4">
@@ -105,8 +100,6 @@ export default function Dashboard({
                             </div>
                         </div>
                     </div>
-
-                    {/* Tasks Section */}
                     <div className="bg-white rounded-lg shadow-md overflow-hidden">
                         <div className="p-6">
                             <div className="flex items-center justify-between mb-4">
@@ -144,6 +137,7 @@ export default function Dashboard({
                             recentProjects.map(project => (
                                 <div key={project.id}>
                                     <p>{project.title}</p>
+                                    <p>{project.descriptio  }</p>
                                     <p></p>
                                 </div>
                             ))

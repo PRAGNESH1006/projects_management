@@ -12,13 +12,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $keyType = 'string';
     public $incrementing = false;
 
     protected $fillable = [
-        'name',
+        'title',
         'description',
         'client_id',
         'start_date',
@@ -32,7 +32,7 @@ class Project extends Model
         'end_date' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-    ]; 
+    ];
 
     protected static function boot(): void
     {
@@ -50,7 +50,7 @@ class Project extends Model
         return $this->belongsToMany(User::class, 'project_employees', 'project_id', 'user_id');
     }
     public function tasks(): HasMany
-    { 
+    {
         return $this->hasMany(Task::class, 'project_id');
     }
 

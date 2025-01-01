@@ -12,7 +12,7 @@ export default function AuthenticatedLayout({ header, children }) {
         useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-100 ">
             <nav className="border-b border-gray-100 bg-white">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
@@ -55,20 +55,20 @@ export default function AuthenticatedLayout({ header, children }) {
                                     >
                                         Tasks
                                     </NavLink>
-                                    </>
-                                ):((<>
+                                </>
+                                ) : ((<>
                                     <NavLink
-                                    href={route(`${user?.role}.projects`, user?.id)}
-                                    active={route().current(`${user?.role}.projects`, user?.id)}
-                                >
-                                    Projects
-                                </NavLink>
-                                <NavLink
-                                    href={route(`${user?.role}.tasks`, user?.id)}
-                                    active={route().current(`${user?.role}.tasks`, user?.id)}
-                                >
-                                    Tasks
-                                </NavLink>
+                                        href={route(`${user?.role}.projects`, user?.id)}
+                                        active={route().current(`${user?.role}.projects`, user?.id)}
+                                    >
+                                        Projects
+                                    </NavLink>
+                                    <NavLink
+                                        href={route(`${user?.role}.tasks`, user?.id)}
+                                        active={route().current(`${user?.role}.tasks`, user?.id)}
+                                    >
+                                        Tasks
+                                    </NavLink>
                                 </>))}
                             </div>
                         </div>
@@ -201,16 +201,9 @@ export default function AuthenticatedLayout({ header, children }) {
                     </div>
                 </div>
             </nav>
-
-            {header && (
-                <header className="bg-white shadow">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        {header}
-                    </div>
-                </header>
-            )}
-
-            <main>{children}</main>
+            <main className="min-h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+                {children}
+            </main>
         </div>
     );
 }
