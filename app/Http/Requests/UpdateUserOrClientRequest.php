@@ -8,39 +8,39 @@ use Illuminate\Validation\Rule;
 
 class UpdateUserOrClientRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return Auth::check() && Auth::user();
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|string|max:255',
             'email' => [
                 'required',
                 'email',
-                Rule::unique('users')->ignore($this->route('user')),  // Ignore the current user's email
+                Rule::unique('users')->ignore($this->route('user')),
             ],
             'role' => 'required|in:admin,employee,client',
-            'company_name' => 'required_if:role,client|string|max:255',  // For client role, validate company_name
-            'contact_number' => 'required_if:role,client|string|max:20',  // For client role, validate contact_number
+        ];
+
+        if ($this->input('role') === 'client') {
+            $rules['company_name'] = 'required|string|max:255';
+            $rules['contact_number'] = 'required|string|max:20';
+        }
+
+        return $rules;
+    }
+
+    public function messages(): array
+    {
+        return [
+            'company_name.required' => 'The company name is required for clients.',
+            'contact_number.required' => 'The contact number is required for clients.',
         ];
     }
 
-    /**
-     * Get the fields that should be updated in the database.
-     *
-     * @return array
-     */
     public function getUpdateableFields(): array
     {
         $updateData = [

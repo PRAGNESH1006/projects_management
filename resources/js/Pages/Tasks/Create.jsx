@@ -4,8 +4,10 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput'; 
+import TextInput from '@/Components/TextInput';
 import ReactSelect from '@/Components/ReactSelect';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Create({ employees, projects, statuses }) {
     const { data, setData, post, errors, reset } = useForm({
@@ -15,7 +17,7 @@ export default function Create({ employees, projects, statuses }) {
         assigned_to: null,
         start_date: '',
         end_date: '',
-        status: null, 
+        status: null,
     });
 
     const handleSubmit = (e) => {
@@ -26,12 +28,12 @@ export default function Create({ employees, projects, statuses }) {
     return (
         <AuthenticatedLayout>
             <Head title="Create Task" />
- 
+
             <div className="container mx-auto px-4 py-8">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-6">
                     <h1 className="text-3xl font-bold text-gray-900">Create New Task</h1>
-                    <Link 
-                        href={route('tasks.index')} 
+                    <Link
+                        href={route('tasks.index')}
                         className="mt-4 md:mt-0 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow transition duration-300 ease-in-out flex items-center"
                     >
                         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -77,14 +79,14 @@ export default function Create({ employees, projects, statuses }) {
                                 <InputLabel htmlFor="assigned_to" value="Assign Employee" />
                                 <ReactSelect
                                     id="assigned_to"
-                                    name="assigned_to" 
+                                    name="assigned_to"
                                     value={data.assigned_to}
                                     onChange={(option) => setData('assigned_to', option?.value)}
                                     options={employees.map(employee => ({ value: employee.id, label: employee.name }))}
                                     placeholder="Select an Employee"
                                     className="mt-1 block w-full"
                                 />
-                                <InputError message={errors.assigned_to} className="mt-2" />  
+                                <InputError message={errors.assigned_to} className="mt-2" />
                             </div>
 
                             <div>
@@ -98,31 +100,32 @@ export default function Create({ employees, projects, statuses }) {
                                     placeholder="Select Status"
                                     className="mt-1 block w-full"
                                 />
-                                <InputError message={errors.status} className="mt-2" /> 
+                                <InputError message={errors.status} className="mt-2" />
                             </div>
 
                             <div>
                                 <InputLabel htmlFor="start_date" value="Start Date" />
-                                <TextInput
+                                <DatePicker
                                     id="start_date"
-                                    type="date"
-                                    name="start_date"
-                                    value={data.start_date}
-                                    className="mt-1 block w-full"
-                                    onChange={(e) => setData('start_date', e.target.value)}
+                                    selected={data.start_date}
+                                    onChange={(date) => setData('start_date', date)}
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                    dateFormat="dd-MM-yyyy"
+                                    placeholderText="Select start date"
                                 />
                                 <InputError message={errors.start_date} className="mt-2" />
                             </div>
 
                             <div>
                                 <InputLabel htmlFor="end_date" value="End Date" />
-                                <TextInput
+                                <DatePicker
                                     id="end_date"
-                                    type="date"
-                                    name="end_date"
-                                    value={data.end_date}
-                                    className="mt-1 block w-full"
-                                    onChange={(e) => setData('end_date', e.target.value)}
+                                    selected={data.end_date}
+                                    onChange={(date) => setData('end_date', date)}
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                    dateFormat="dd-MM-yyyy"
+                                    placeholderText="Select end date"
+                                    minDate={data.start_date}
                                 />
                                 <InputError message={errors.end_date} className="mt-2" />
                             </div>

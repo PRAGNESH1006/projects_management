@@ -6,7 +6,6 @@ import DropdownMenu from './DropdownMenu';
 
 export default function TaskCard({ task, role, onDelete }) {
     const { delete: destroy } = useForm();
-    const [isDeleting, setIsDeleting] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
@@ -47,12 +46,9 @@ export default function TaskCard({ task, role, onDelete }) {
                             <DropdownMenu
                                 isOpen={dropdownOpen}
                                 onClose={closeDropdown}
-                                onView={route('tasks.show', task.id)}
-                                onEdit={route('tasks.edit', task.id)}
                                 item={task}
                                 type="tasks"
                                 destroy={destroy}
-                                setIsDeleting={setIsDeleting}
                             />
                         </div>
                     )}

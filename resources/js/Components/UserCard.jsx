@@ -8,7 +8,6 @@ const AVATAR_URL = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F
 
 export default function UserCard({ user, role }) {
     const { delete: destroy } = useForm();
-    const [isDeleting, setIsDeleting] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const roleClass = user?.role === 'admin' ? 'bg-red-500 text-white' : 'bg-blue-500 text-white';
@@ -38,12 +37,9 @@ export default function UserCard({ user, role }) {
                         <DropdownMenu
                             isOpen={dropdownOpen}
                             onClose={closeDropdown}
-                            onView={route('users.show', user.id)}
-                            onEdit={route('users.edit', user.id)}
                             item={user}
                             type="users"
                             destroy={destroy}
-                            setIsDeleting={setIsDeleting}
                         />
                     </div>
                 )}

@@ -6,24 +6,23 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 
-function CreateUserModal({ role }) {
+function UpdateUserModal({ user }) {
     const [modalOpen, setModalOpen] = useState(false);
-    const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
-        email: '',
+    const { data, setData, put, processing, errors, reset } = useForm({
+        name: user?.name || '',
+        email: user?.email || '',
         password: '',
-        role: role,
+        role: user?.role,
         password_confirmation: '',
-        company_name: '',
-        contact_number: '',
+        company_name: user?.company_name || '',
+        contact_number: user?.contact_number || '',
     });
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('users.store'), {
+        put(route('users.update', user.id), {
             onSuccess: () => {
-                reset()
+                reset();
                 setModalOpen(false);
             },
             onError: () => {
@@ -31,17 +30,24 @@ function CreateUserModal({ role }) {
                 console.log(errors);
             },
         });
+    };
 
-    };
     const handleCloseModal = () => {
-        setModalOpen(false)
-        reset()
+        setModalOpen(false);
+        reset();
     };
+
     const handleOpenModal = () => setModalOpen(true);
 
     useEffect(() => {
-        reset();
-    }, [role]);
+        reset({
+            name: user?.name || '',
+            email: user?.email || '',
+            role: user?.role,
+            company_name: user?.company_name || '',
+            contact_number: user?.contact_number || '',
+        });
+    }, [user]);
 
     return (
         <>
@@ -49,12 +55,15 @@ function CreateUserModal({ role }) {
                 onClick={handleOpenModal}
                 className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
             >
-                Create {role.charAt(0).toUpperCase() + role.slice(1)}
+                Update
+                 {/* {user?.role.charAt(0).toUpperCase() + user?.role.slice(1)} */}
             </button>
 
             <Modal show={modalOpen} onClose={handleCloseModal} maxWidth="md">
                 <div className="p-6">
-                    <h2 className="text-2xl font-semibold text-gray-900 mb-4">Create New {role.charAt(0).toUpperCase() + role.slice(1)}</h2>
+                    <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                        Update {user?.role.charAt(0).toUpperCase() + user?.role.slice(1)}
+                    </h2>
 
                     <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6 md:grid-cols-2">
                         <div className="mt-4">
@@ -66,7 +75,6 @@ function CreateUserModal({ role }) {
                                 value={data.name}
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                                 autoComplete="name"
-                                isFocused={true}
                                 onChange={(e) => setData('name', e.target.value)}
                             />
                             <InputError message={errors.name} className="mt-2" />
@@ -114,7 +122,7 @@ function CreateUserModal({ role }) {
                             <InputError message={errors.password_confirmation} className="mt-2" />
                         </div>
 
-                        {role === 'client' && (
+                        {user?.role === 'client' && (
                             <>
                                 <div className="mt-4">
                                     <InputLabel htmlFor="company_name" value="Company Name" />
@@ -146,7 +154,7 @@ function CreateUserModal({ role }) {
 
                         <div className="mt-4 col-span-2">
                             <PrimaryButton className="w-full" processing={processing}>
-                                Create {role.charAt(0).toUpperCase() + role.slice(1)}
+                                Update {user?.role.charAt(0).toUpperCase() + user?.role.slice(1)}
                             </PrimaryButton>
                         </div>
                     </form>
@@ -156,4 +164,4 @@ function CreateUserModal({ role }) {
     );
 }
 
-export default CreateUserModal;
+export default UpdateUserModal;

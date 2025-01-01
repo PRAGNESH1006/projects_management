@@ -6,7 +6,6 @@ import DropdownMenu from './DropdownMenu';
 
 export default function ProjectCard({ project, role }) {
     const { delete: destroy } = useForm();
-    const [isDeleting, setIsDeleting] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
@@ -49,12 +48,9 @@ export default function ProjectCard({ project, role }) {
                             <DropdownMenu
                                 isOpen={dropdownOpen}
                                 onClose={closeDropdown}
-                                onView={route('projects.show', project.id)}
-                                onEdit={route('projects.edit', project.id)}
                                 item={project}
                                 type="projects"  
-                                destroy={destroy}  
-                                setIsDeleting={setIsDeleting}
+                                destroy={destroy}
                             />
 
                         </div>

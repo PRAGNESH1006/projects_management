@@ -66,7 +66,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                             Projects
                                         </NavLink>
                                         <NavLink
-                                            href={route(`client.tasks`, user?.id)}
+                                            href={route(`${user?.role}.tasks`, user?.id)}
                                             active={route().current(`${user?.role}.tasks`, user?.id)}
                                         >
                                             Tasks

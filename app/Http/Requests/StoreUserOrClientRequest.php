@@ -3,13 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Enums\RoleEnum;
-use Exception;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
-use Throwable;
 
 class StoreUserOrClientRequest extends FormRequest
 {
@@ -20,13 +16,27 @@ class StoreUserOrClientRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
             'role' => ['required', new Enum(RoleEnum::class)],
-            'company_name' => 'required_if:role,client|string|max:255',
-            'contact_number' => 'required_if:role,client|string|max:20',
+        ];
+        if ($this->input('role') === 'client') {
+            $rules['company_name'] = 'required|string|max:255';
+            $rules['contact_number'] = 'required|numeric|digits:10';
+        }
+
+        return $rules;
+    }
+
+    public function messages(): array
+    {
+        return [
+            'company_name.required' => 'The company name is required for clients.',
+            'contact_number.required' => 'The contact number is required for clients.',
+            'contact_number.numeric' => 'The contact number must be a valid number.',
+            'contact_number.digits' => 'The contact number must be exactly 10 digits.',
         ];
     }
 
@@ -48,9 +58,4 @@ class StoreUserOrClientRequest extends FormRequest
 
         return $insertData;
     }
-
-    // protected function failedValidation(Validator $validator)
-    // {
-    //     throw new HttpResponseException(response()->json($validator->errors(), 422));
-    // }
 }

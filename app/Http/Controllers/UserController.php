@@ -35,10 +35,10 @@ class UserController extends BaseController
         return Inertia::render('Users/Show', compact('user'));
     }
 
-    public function create(): Response
-    {
-        return Inertia::render('Users/Create');
-    }
+    // public function create(): Response
+    // {
+    //     return Inertia::render('Users/Create');
+    // }
 
     public function store(StoreUserOrClientRequest $request)
     {
@@ -71,7 +71,7 @@ class UserController extends BaseController
     public function edit(User $user): Response
     {
         $clientDetail = $user->clientDetail;
-        return Inertia::render('users.edit', compact('user', 'clientDetail'));
+        return Inertia::render('Users/Edit', compact('user', 'clientDetail'));
     }
 
     public function update(User $user, UpdateUserOrClientRequest $request)
