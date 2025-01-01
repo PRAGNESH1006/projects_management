@@ -13,7 +13,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
     return (
         <div className="min-h-screen bg-gray-100 ">
-            <nav className="border-b border-gray-100 bg-white">
+            <nav className="border-b border-gray-100 bg-white sticky top-0 z-50">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
                         <div className="flex">
@@ -30,46 +30,49 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Dashboard
                                 </NavLink>
-                                {user?.role === 'admin' ? (<>
-                                    <NavLink
-                                        href={route(`employee.index`)}
-                                        active={route().current('employee.index')}
-                                    >
-                                        Employee
-                                    </NavLink>
-                                    <NavLink
-                                        href={route(`client.index`)}
-                                        active={route().current('client.index')}
-                                    >
-                                        Clients
-                                    </NavLink>
-                                    <NavLink
-                                        href={route(`projects.index`)}
-                                        active={route().current('projects.index')}
-                                    >
-                                        Projects
-                                    </NavLink>
-                                    <NavLink
-                                        href={route(`tasks.index`)}
-                                        active={route().current('tasks.index')}
-                                    >
-                                        Tasks
-                                    </NavLink>
-                                </>
-                                ) : ((<>
-                                    <NavLink
-                                        href={route(`${user?.role}.projects`, user?.id)}
-                                        active={route().current(`${user?.role}.projects`, user?.id)}
-                                    >
-                                        Projects
-                                    </NavLink>
-                                    <NavLink
-                                        href={route(`${user?.role}.tasks`, user?.id)}
-                                        active={route().current(`${user?.role}.tasks`, user?.id)}
-                                    >
-                                        Tasks
-                                    </NavLink>
-                                </>))}
+                                {user?.role === 'admin' ? (
+                                    <>
+                                        <NavLink
+                                            href={route(`employee.index`)}
+                                            active={route().current('employee.index')}
+                                        >
+                                            Employee
+                                        </NavLink>
+                                        <NavLink
+                                            href={route(`client.index`)}
+                                            active={route().current('client.index')}
+                                        >
+                                            Clients
+                                        </NavLink>
+                                        <NavLink
+                                            href={route(`projects.index`)}
+                                            active={route().current('projects.index')}
+                                        >
+                                            Projects
+                                        </NavLink>
+                                        <NavLink
+                                            href={route(`tasks.index`)}
+                                            active={route().current('tasks.index')}
+                                        >
+                                            Tasks
+                                        </NavLink>
+                                    </>
+                                ) : (
+                                    <>
+                                        <NavLink
+                                            href={route(`${user?.role}.projects`, user?.id)}
+                                            active={route().current(`${user?.role}.projects`, user?.id)}
+                                        >
+                                            Projects
+                                        </NavLink>
+                                        <NavLink
+                                            href={route(`client.tasks`, user?.id)}
+                                            active={route().current(`${user?.role}.tasks`, user?.id)}
+                                        >
+                                            Tasks
+                                        </NavLink>
+                                    </>
+                                )}
                             </div>
                         </div>
 
@@ -101,16 +104,8 @@ export default function AuthenticatedLayout({ header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link
-                                            href={route('profile.edit')}
-                                        >
-                                            Profile
-                                        </Dropdown.Link>
-                                        <Dropdown.Link
-                                            href={route('logout')}
-                                            method="post"
-                                            as="button"
-                                        >
+                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
+                                        <Dropdown.Link href={route('logout')} method="post" as="button">
                                             Log Out
                                         </Dropdown.Link>
                                     </Dropdown.Content>
@@ -121,35 +116,20 @@ export default function AuthenticatedLayout({ header, children }) {
                         <div className="-me-2 flex items-center sm:hidden">
                             <button
                                 onClick={() =>
-                                    setShowingNavigationDropdown(
-                                        (previousState) => !previousState,
-                                    )
+                                    setShowingNavigationDropdown((previousState) => !previousState)
                                 }
                                 className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
                             >
-                                <svg
-                                    className="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
+                                <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path
-                                        className={
-                                            !showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
-                                        }
+                                        className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth="2"
                                         d="M4 6h16M4 12h16M4 18h16"
                                     />
                                     <path
-                                        className={
-                                            showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
-                                        }
+                                        className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth="2"
@@ -161,12 +141,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     </div>
                 </div>
 
-                <div
-                    className={
-                        (showingNavigationDropdown ? 'block' : 'hidden') +
-                        ' sm:hidden'
-                    }
-                >
+                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="space-y-1 pb-3 pt-2">
                         <ResponsiveNavLink
                             href={route(`${user?.role}.dashboard`)}
@@ -174,34 +149,50 @@ export default function AuthenticatedLayout({ header, children }) {
                         >
                             Dashboard
                         </ResponsiveNavLink>
+                        {user?.role === 'admin' ? (
+                            <>
+                                <ResponsiveNavLink href={route('employee.index')} active={route().current('employee.index')}>
+                                    Employee
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink href={route('client.index')} active={route().current('client.index')}>
+                                    Clients
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink href={route('projects.index')} active={route().current('projects.index')}>
+                                    Projects
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink href={route('tasks.index')} active={route().current('tasks.index')}>
+                                    Tasks
+                                </ResponsiveNavLink>
+                            </>
+                        ) : (
+                            <>
+                                <ResponsiveNavLink href={route(`${user?.role}.projects`, user?.id)} active={route().current(`${user?.role}.projects`, user?.id)}>
+                                    Projects
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink href={route(`client.tasks`, user?.id)} active={route().current(`${user?.role}.tasks`, user?.id)}>
+                                    Tasks
+                                </ResponsiveNavLink>
+                            </>
+                        )}
                     </div>
 
                     <div className="border-t border-gray-200 pb-1 pt-4">
                         <div className="px-4">
-                            <div className="text-base font-medium text-gray-800">
-                                {user.name}
-                            </div>
-                            <div className="text-sm font-medium text-gray-500">
-                                {user.email}
-                            </div>
+                            <div className="text-base font-medium text-gray-800">{user.name}</div>
+                            <div className="text-sm font-medium text-gray-500">{user.email}</div>
                         </div>
 
                         <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>
-                                Profile
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                method="post"
-                                href={route('logout')}
-                                as="button"
-                            >
+                            <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
+                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
                                 Log Out
                             </ResponsiveNavLink>
                         </div>
                     </div>
                 </div>
             </nav>
-            <main className="min-h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+
+            <main >
                 {children}
             </main>
         </div>

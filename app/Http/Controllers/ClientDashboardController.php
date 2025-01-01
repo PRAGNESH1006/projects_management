@@ -41,6 +41,6 @@ class ClientDashboardController extends Controller
     public function tasks(User $user): \Inertia\Response
     {
         $tasks = $this->projectRepository->getTasksByClient($user->id);
-        return Inertia::render('Client.Tasks', compact('tasks'));
+        return Inertia::render('Client/Tasks', compact('tasks'));
     }
 }

@@ -9,7 +9,7 @@ export default function Welcome({ auth }) {
             <Head title="Welcome to Project Manager" />
 
             <nav className="flex justify-between items-center bg-white p-4 fixed w-full top-0 z-50 shadow-lg border-b border-gray-200">
-                <div className="text-2xl font-bold text-gray-900 ml-6 cursor-pointer hover:text-blue-600 transition duration-200"> 
+                <div className="text-2xl font-bold text-gray-900 ml-6 cursor-pointer hover:text-blue-600 transition duration-200">
                     Project Manager
                 </div>
 
@@ -52,7 +52,7 @@ export default function Welcome({ auth }) {
                 </div>
             </nav>
 
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-200 to-purple-300 text-gray-900 p-6">
+            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-200 to-purple-300 text-gray-900 p-6 space-y-6">
                 <h1 className="text-5xl font-bold mb-4 animate__animated animate__fadeIn">
                     Welcome to Project Manager
                 </h1>

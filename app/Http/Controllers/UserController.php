@@ -35,7 +35,7 @@ class UserController extends BaseController
         return Inertia::render('Users/Show', compact('user'));
     }
 
-    public function create(Request $request): Response
+    public function create(Request $request ): Response
     {
         $role = $request->query('role', '');
         $validRoles = ['admin', 'employee', 'client'];
@@ -43,7 +43,7 @@ class UserController extends BaseController
             $role = '';
         }
 
-        return Inertia::render('Users/Create', compact('role'));
+        return Inertia::render('Users/Create' ,compact('role'));
     }
 
     public function store(StoreUserOrClientRequest $request)
