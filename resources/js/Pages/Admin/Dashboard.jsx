@@ -1,26 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import DashboardCard from '@/Components/DashboardCard';
 import RecentSection from '@/Components/RecentSection';
 import CreateUserModal from '@/Components/CreateUserModal';
-
-const customStyles = `
-    .scrollbar-thin::-webkit-scrollbar {
-        width: 6px;
-    }
-    .scrollbar-thin::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-    .scrollbar-thin::-webkit-scrollbar-thumb {
-        background: #888;
-        border-radius: 3px;
-    }
-    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-        background: #555;
-    }
-`;
 
 export default function Dashboard({
     projectCount,
@@ -32,16 +16,6 @@ export default function Dashboard({
     recentClients,
     recentEmployees,
 }) {
-    const [modalOpen, setModalOpen] = useState(false);
-
-    const handleCloseModal = () => setModalOpen(false);
-    const handleOpenModal = () => setModalOpen(true);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Form submitted');
-        handleCloseModal();
-    };
 
     const pieChartData = [
         { name: 'Projects', value: projectCount, color: '#3B82F6' },
@@ -50,13 +24,11 @@ export default function Dashboard({
         { name: 'Employees', value: employeeCount, color: '#F59E0B' },
     ];
 
-    console.log(recentProjects)
     return (
         <AuthenticatedLayout>
             <Head title="Admin Dashboard">
-                <style>{customStyles}</style>
             </Head>
-            <div className='container mx-auto px-4'>
+            <div className='container mx-auto px-4 pb-2'>
                 <div className="flex flex-col md:flex-row justify-between items-center py-4 mb-6 border-b">
                     <h1 className="text-3xl font-semibold text-gray-800">Dashboard</h1>
                     <CreateUserModal role={"admin"} />
@@ -126,9 +98,7 @@ export default function Dashboard({
                     <RecentSection title="Recent Clients" items={recentClients} viewAllRoute="client.index" />
                     <RecentSection title="Recent Employees" items={recentEmployees} viewAllRoute="employee.index" />
                 </div>
-                {/* </div> */}
             </div>
-
         </AuthenticatedLayout>
     );
 }

@@ -4,7 +4,7 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import React from 'react';
 
 export default function Index({ users }) {
-    const user = usePage().props.auth.user;
+    const authUser = usePage().props.auth.user;
     return (
         <AuthenticatedLayout>
             <Head title="Users" />
@@ -17,7 +17,7 @@ export default function Index({ users }) {
                         <div className="col-span-full text-center text-gray-500">No Users found</div>
                     ) : (
                         users.map(user => (
-                            <UserCard key={user.id} user={user} role={user?.role} />
+                            <UserCard key={user.id} user={user} role={authUser?.role} />
                         ))
                     )}
                 </div>

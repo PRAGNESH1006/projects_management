@@ -169,7 +169,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                 <ResponsiveNavLink href={route(`${user?.role}.projects`, user?.id)} active={route().current(`${user?.role}.projects`, user?.id)}>
                                     Projects
                                 </ResponsiveNavLink>
-                                <ResponsiveNavLink href={route(`client.tasks`, user?.id)} active={route().current(`${user?.role}.tasks`, user?.id)}>
+                                <ResponsiveNavLink href={route(`${user?.role}.tasks`, user?.id)} active={route().current(`${user?.role}.tasks`, user?.id)}>
                                     Tasks
                                 </ResponsiveNavLink>
                             </>
@@ -192,7 +192,7 @@ export default function AuthenticatedLayout({ header, children }) {
                 </div>
             </nav>
 
-            <main >
+            <main className='scrollable'>
                 {children}
             </main>
         </div>

@@ -4,7 +4,7 @@ import { Link, useForm } from '@inertiajs/react';
 import { FaEllipsisV } from 'react-icons/fa';
 import DropdownMenu from './DropdownMenu';
 
-export default function TaskCard({ task, role, onDelete }) {
+export default function TaskCard({ task, role }) {
     const { delete: destroy } = useForm();
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -37,10 +37,11 @@ export default function TaskCard({ task, role, onDelete }) {
             <div className='flex justify-between items-center mb-4'>
                 <h2 className="text-lg font-semibold text-gray-800 truncate">{shortName}</h2>
                 <div className='flex items-center '>
-                    {role === "admin" && (
-                        <div className='relative'>
+                   {
+                    (role === "admin" || role === "employee") && (
+                        <div className="relative">
                             <FaEllipsisV
-                                className='text-xl text-gray-600 cursor-pointer'
+                                className="text-xl text-gray-600 cursor-pointer"
                                 onClick={toggleDropdown}
                             />
                             <DropdownMenu
@@ -49,9 +50,12 @@ export default function TaskCard({ task, role, onDelete }) {
                                 item={task}
                                 type="tasks"
                                 destroy={destroy}
+                                role={role}
                             />
                         </div>
-                    )}
+                    )
+                    
+                   }
                 </div>
             </div>
 
@@ -63,7 +67,7 @@ export default function TaskCard({ task, role, onDelete }) {
                 </span>
                 <Link
                     href={route('tasks.show', task?.id)}
-                    className="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md transition-colors duration-300"
+                    className="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium rounded-md transition-colors duration-300"
                 >
                     View Details
                 </Link>

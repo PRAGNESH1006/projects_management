@@ -1,7 +1,9 @@
 import React from 'react';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
+import CreateUserModal from './CreateUserModal';
 
 export default function DashboardCard({ title, count, icon, color, createRoute, viewRoute }) {
+    const user = usePage().props.auth.user;
     return (
         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6">
@@ -18,9 +20,19 @@ export default function DashboardCard({ title, count, icon, color, createRoute, 
                 </div>
                 <div className="mt-6">
                     <div className="flex items-center justify-between">
-                        <Link href={route(createRoute, { role: title.toLowerCase() })} className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                            Create
-                        </Link>
+                    {
+                            user?.role === "admin" && ['Employees', 'Clients'].includes(title) && (
+                                <CreateUserModal role={title === "Employees" ? 'employee' : "client"} />
+                            )
+                        }
+                        {
+                            user?.role === "admin" && ['Projects', 'Tasks'].includes(title) && (
+                                <Link href={route(`${title.toLowerCase()}.create`)}  className="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium rounded-md transition-colors duration-300">
+                                    Create
+                                </Link>
+                            )
+                        }
+
                         <Link href={route(viewRoute)} className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
                             View all
                         </Link>

@@ -47,7 +47,7 @@ function CreateUserModal({ role }) {
         <>
             <button
                 onClick={handleOpenModal}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+                 className="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium rounded-md transition-colors duration-300"
             >
                 Create {role.charAt(0).toUpperCase() + role.slice(1)}
             </button>

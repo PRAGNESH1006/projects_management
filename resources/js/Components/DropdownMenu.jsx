@@ -1,8 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
-import {  FaEdit, FaTrashAlt } from 'react-icons/fa';
-import { Link } from '@inertiajs/react';
+import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { Link ,usePage} from '@inertiajs/react';
+import UpdateUserModal from './UpdateUserModal';
 
-function DropdownMenu({ isOpen, onClose, item, type, destroy }) {
+function DropdownMenu({ isOpen, onClose, item, type, destroy,role }) {
     const dropdownRef = useRef(null);
     const [isDeleting, setIsDeleting] = useState(false);
 
@@ -59,14 +60,14 @@ function DropdownMenu({ isOpen, onClose, item, type, destroy }) {
                 >
                     <FaEdit className="inline-block mr-2" /> Edit
                 </Link>
-                <button
+                {role === "admin" && <button
                     onClick={handleDelete}
                     disabled={isDeleting}
                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 transition-colors duration-150 ease-in-out focus:outline-none focus:bg-red-50 focus:text-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     <FaTrashAlt className="inline-block mr-2" />
                     {isDeleting ? "Deleting..." : "Delete"}
-                </button>
+                </button>}
             </div>
         </div>
     );

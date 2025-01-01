@@ -28,7 +28,7 @@ class EmployeeDashboardController extends Controller
         $employeeId = Auth::user()->id;
 
         $tasks = $this->taskRepository->getTasksByEmployee($employeeId);
-        $projects = $tasks->load('project');
+        $projects = $tasks->load('project')->pluck('project')->unique('id');
         $tasksCount = $tasks->count();
         $projectsCount = $this->taskRepository->getProjectsByEmployee($employeeId)->count();
 

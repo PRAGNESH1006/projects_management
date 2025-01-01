@@ -63,7 +63,7 @@ export default function ProjectCard({ project, role }) {
             <div className="mt-4 flex justify-end">
                 <Link
                     href={route('projects.show', project?.id)}
-                    className="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md transition-colors duration-300"
+                    className="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium rounded-md transition-colors duration-300"
                 >
                     View Details
                 </Link>

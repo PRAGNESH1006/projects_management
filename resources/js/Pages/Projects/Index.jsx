@@ -4,7 +4,7 @@ import { Head, Link, usePage } from '@inertiajs/react'
 import React from 'react'
 
 export default function Index({ projects }) {
-    const user = usePage().props.auth.user;
+    const authUser = usePage().props.auth.user;
     return (
         <AuthenticatedLayout>
             <Head title="Projects" />
@@ -20,7 +20,7 @@ export default function Index({ projects }) {
                         <div className="col-span-full text-center text-gray-500">No projects found</div>
                     ) : (
                         projects.map(project => (
-                            <ProjectCard key={project.id} project={project} role={user?.role} />
+                            <ProjectCard key={project.id} project={project} role={authUser?.role} />
                         ))
                     )}
                 </div>

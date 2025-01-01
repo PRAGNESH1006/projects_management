@@ -12,8 +12,6 @@ function UpdateUserModal({ user }) {
         name: user?.name || '',
         email: user?.email || '',
         password: '',
-        role: user?.role,
-        password_confirmation: '',
         company_name: user?.company_name || '',
         contact_number: user?.contact_number || '',
     });
@@ -92,34 +90,6 @@ function UpdateUserModal({ user }) {
                                 onChange={(e) => setData('email', e.target.value)}
                             />
                             <InputError message={errors.email} className="mt-2" />
-                        </div>
-
-                        <div className="mt-4">
-                            <InputLabel htmlFor="password" value="Password" />
-                            <TextInput
-                                id="password"
-                                type="password"
-                                name="password"
-                                value={data.password}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                                autoComplete="password"
-                                onChange={(e) => setData('password', e.target.value)}
-                            />
-                            <InputError message={errors.password} className="mt-2" />
-                        </div>
-
-                        <div className="mt-4">
-                            <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
-                            <TextInput
-                                id="password_confirmation"
-                                type="password"
-                                name="password_confirmation"
-                                value={data.password_confirmation}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                                autoComplete="password_confirmation"
-                                onChange={(e) => setData('password_confirmation', e.target.value)}
-                            />
-                            <InputError message={errors.password_confirmation} className="mt-2" />
                         </div>
 
                         {user?.role === 'client' && (

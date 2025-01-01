@@ -4,7 +4,7 @@ import { Head ,usePage} from '@inertiajs/react'
 import React from 'react'
 
 export default function Tasks({ tasks }) {
-    const user = usePage().props.auth.user;
+    const authUser = usePage().props.auth.user;
     return (
         <AuthenticatedLayout>
             <Head title="Tasks" />
@@ -17,7 +17,7 @@ export default function Tasks({ tasks }) {
                         <div className="col-span-full text-center text-gray-500">No Tasks found</div>
                     ) : (
                         tasks.map(task => (
-                            <TaskCard key={task.id} task={task} role={user?.role}/>
+                            <TaskCard key={task.id} task={task} role={authUser?.role}/>
                         ))
                     )}
                 </div>
