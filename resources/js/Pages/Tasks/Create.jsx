@@ -29,7 +29,7 @@ export default function Create({ employees, projects, statuses }) {
         <AuthenticatedLayout>
             <Head title="Create Task" />
 
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-4 py-8 max-w-[700px]">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-6">
                     <h1 className="text-3xl font-bold text-gray-900">Create New Task</h1>
                     <Link
@@ -143,7 +143,6 @@ export default function Create({ employees, projects, statuses }) {
                             />
                             <InputError message={errors.description} className="mt-2" />
                         </div>
-
                         <div className="flex items-center justify-end mt-6">
                             <PrimaryButton className="ml-4">
                                 Create Task

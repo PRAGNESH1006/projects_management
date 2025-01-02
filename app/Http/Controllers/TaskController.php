@@ -64,11 +64,11 @@ class TaskController extends BaseController
 
     public function edit(Task $task): Response
     {
-        $status = TaskStatusEnum::options();
+        $statuses = TaskStatusEnum::options();
         $task = $this->taskRepository->getById($task->id);
         $employees = $this->userRepository->getAllUserByRole('employee');
 
-        return Inertia::render('Tasks/Edit', compact('task', 'employees', 'status'));
+        return Inertia::render('Tasks/Edit', compact('task', 'employees', 'statuses'));
     }
 
     public function update(Task $task, UpdateTaskRequest $request): RedirectResponse

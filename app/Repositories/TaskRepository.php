@@ -13,15 +13,8 @@ class TaskRepository extends BaseRepository
         parent::__construct($model);
     }
 
-    public function getTasksByEmployee($id): Collection
-    {
-        return $this->newQuery()
-            ->where('assigned_to', $id)
-            ->get();
-    }
-
     public function getProjectsByEmployee($employeeId): Collection
-    { 
+    {
         $tasks = $this->newQuery()
             ->where('assigned_to', $employeeId)
             ->with('project')
@@ -41,5 +34,59 @@ class TaskRepository extends BaseRepository
             ->orderBy('created_at', 'desc')
             ->limit($limit)
             ->get();
+    }
+
+    //////////////
+    public function getTasksByEmployee($employeeId): Collection
+    {
+        return $this->newQuery()
+            ->where('assigned_to', $employeeId)
+            ->get();
+    }
+
+    public function getTaskCompletionStats($employeeId): array
+    {
+        $totalTasks = $this->newQuery()
+            ->where('assigned_to', $employeeId)
+            ->count();
+        $completedTasks = $this->newQuery()
+            ->where('assigned_to', $employeeId)
+            ->where('status', 'completed')
+            ->count();
+        $pendingTasks = $this->newQuery()
+            ->where('assigned_to', $employeeId)
+            ->where('status', 'pending')
+            ->count();
+        $overdueTasks = $this->newQuery()
+            ->where('assigned_to', $employeeId)
+            ->where('end_date', '<', now())
+            ->where('status', '!=', 'completed')
+            ->count();
+
+        return [
+            'total' => $totalTasks,
+            'completed' => $completedTasks,
+            'pending' => $pendingTasks,
+            'overdue' => $overdueTasks,
+        ];
+    }
+
+    public function getRecentTasksByEmployee($employeeId, int $limit): Collection
+    {
+        return $this->newQuery()
+            ->where('assigned_to', $employeeId)
+            ->orderBy('updated_at', 'desc')
+            ->limit($limit)
+            ->get();
+    }
+
+    public function getRecentActivitiesByEmployee($employeeId, int $limit): Collection
+    {
+        return $this->newQuery()
+            ->where('assigned_to', $employeeId)
+            ->orWhere('created_by', $employeeId)
+            ->orderBy('updated_at', 'desc')
+            ->limit($limit)
+            ->get(['id', 'title', 'status', 'updated_at']);
     }
 }

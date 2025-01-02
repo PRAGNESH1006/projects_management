@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Repositories\TaskRepository;
 use App\Repositories\ProjectRepository;
+use App\Services\EmployeeDashboardService;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -15,26 +16,35 @@ class EmployeeDashboardController extends Controller
     protected UserRepository $userRepository;
     protected TaskRepository $taskRepository;
     protected ProjectRepository $projectRepository;
+    protected EmployeeDashboardService $dashboardService;
 
-    public function __construct(UserRepository $userRepository, TaskRepository $taskRepository, ProjectRepository $projectRepository)
+
+    public function __construct(UserRepository $userRepository, TaskRepository $taskRepository, ProjectRepository $projectRepository,EmployeeDashboardService $dashboardService)
     {
         $this->userRepository = $userRepository;
         $this->taskRepository = $taskRepository;
         $this->projectRepository = $projectRepository;
+        $this->dashboardService = $dashboardService;
     }
 
-    public function show(): \Inertia\Response
+    
+    public function show()
     {
-        $employeeId = Auth::user()->id;
-
-        $tasks = $this->taskRepository->getTasksByEmployee($employeeId);
-        $projects = $tasks->load('project')->pluck('project')->unique('id');
-        $tasksCount = $tasks->count();
-        $projectsCount = $this->taskRepository->getProjectsByEmployee($employeeId)->count();
-
-        return Inertia::render('Employee/Dashboard', compact('tasks', 'tasksCount', 'projectsCount', 'projects'));
+        $data = $this->dashboardService->getDashboardData(Auth::id());
+    
+        return Inertia::render('Employee/Dashboard', [
+            'tasksCount' => $data['tasksCount'],
+            'completedTasks' => $data['completedTasks'],
+            'pendingTasks' => $data['pendingTasks'],
+            'overdueTasks' => $data['overdueTasks'],
+            'taskRatio' => $data['taskRatio'],
+            'recentTasks' => $data['recentTasks']->toArray(),
+            'recentActivities' => $data['recentActivities']->toArray(),
+            'projects' => $data['projects']->toArray(),
+            'projectsCount' => $data['projectsCount'],
+        ]);
     }
-
+    
     public function index(): \Inertia\Response
     {
         $employees = $this->userRepository->getAllUserByRole('employee');

@@ -18,7 +18,7 @@ class ProjectRepository extends BaseRepository
             ->where('client_id', $id)
             ->get();
     }
-   
+
     public function getTasksByClient(string $clientId): Collection
     {
         return $this->newQuery()
@@ -27,7 +27,7 @@ class ProjectRepository extends BaseRepository
             ->where('projects.client_id', $clientId)
             ->get(['tasks.*']);
     }
-    
+
 
     public function count(): int
     {
@@ -40,6 +40,15 @@ class ProjectRepository extends BaseRepository
             ->with(['client', 'tasks'])
             ->orderBy('created_at', 'desc')
             ->limit($limit)
+            ->get();
+    }
+
+    public function getProjectsByEmployee($employeeId): Collection
+    {
+        return $this->newQuery()
+            ->whereHas('tasks', function ($query) use ($employeeId) {
+                $query->where('assigned_to', $employeeId);
+            })
             ->get();
     }
 }

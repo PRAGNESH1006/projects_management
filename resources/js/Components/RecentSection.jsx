@@ -20,20 +20,23 @@ export default function RecentSection({ title, items, viewAllRoute }) {
                                 <li key={item.id} className="py-4">
                                     <div className="flex items-center space-x-4">
                                         <div className="flex-shrink-0">
-                                           {item?.name? ( <span className="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                                            {item?.name ? (<span className="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
                                                 <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                                                     <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                                                 </svg>
-                                            </span>): ("📊")}
+                                            </span>) : ("📊")}
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <p className="text-sm font-medium text-gray-900 truncate">
                                                 {item.name || item.title}
                                             </p>
                                             <p className="text-sm text-gray-500 truncate">
-                                                {item.email || item.description || `ID: ${item.id}`}
+                                                {item.email || item.description || `Status: ${item.status}`}
                                             </p>
                                         </div>
+                                        <p className="text-xs text-gray-500 truncate">
+                                            { `Updated: ${new Date(item.updated_at).toLocaleString()} ` }
+                                        </p>
                                         {/* <Link href={route(`${item.name || item.title}.show`, item.id)}>Show</Link> */}
                                         {/* <span>{item.created_by}</span> */}
                                     </div>
