@@ -1,14 +1,16 @@
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head } from '@inertiajs/react';
 import React from 'react';
 
 function Edit({ user }) {
-  console.log(user); 
-
   return (
+   <AuthenticatedLayout>
+    <Head title="User Edit" />
     <div>
-      {Object.entries(user).map(([key, value]) => (
-        <p key={key}><strong>{key}:</strong> {JSON.stringify(value)}</p>
-      ))}
+    <p>{user.name}</p>
+    <p>{user.email}</p>
     </div>
+   </AuthenticatedLayout>
   );
 }
 

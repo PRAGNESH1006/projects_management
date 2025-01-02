@@ -34,11 +34,8 @@ export default function Create({ employees, projects, statuses }) {
                     <h1 className="text-3xl font-bold text-gray-900">Create New Task</h1>
                     <Link
                         href={route('tasks.index')}
-                        className="mt-4 md:mt-0 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow transition duration-300 ease-in-out flex items-center"
+                        className="mt-4 md:mt-0 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1"
                     >
-                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                        </svg>
                         Back to Tasks
                     </Link>
                 </div>
@@ -88,46 +85,32 @@ export default function Create({ employees, projects, statuses }) {
                                 />
                                 <InputError message={errors.assigned_to} className="mt-2" />
                             </div>
-
-                            <div>
-                                <InputLabel htmlFor="status" value="Status" />
-                                <ReactSelect
-                                    id="status"
-                                    name="status"
-                                    value={data.status}
-                                    onChange={(option) => setData('status', option?.value)}
-                                    options={statuses}
-                                    placeholder="Select Status"
-                                    className="mt-1 block w-full"
-                                />
-                                <InputError message={errors.status} className="mt-2" />
-                            </div>
-
-                            <div>
-                                <InputLabel htmlFor="start_date" value="Start Date" />
-                                <DatePicker
-                                    id="start_date"
-                                    selected={data.start_date}
-                                    onChange={(date) => setData('start_date', date)}
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                                    dateFormat="dd-MM-yyyy"
-                                    placeholderText="Select start date"
-                                />
-                                <InputError message={errors.start_date} className="mt-2" />
-                            </div>
-
-                            <div>
-                                <InputLabel htmlFor="end_date" value="End Date" />
-                                <DatePicker
-                                    id="end_date"
-                                    selected={data.end_date}
-                                    onChange={(date) => setData('end_date', date)}
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                                    dateFormat="dd-MM-yyyy"
-                                    placeholderText="Select end date"
-                                    minDate={data.start_date}
-                                />
-                                <InputError message={errors.end_date} className="mt-2" />
+                            <div className='flex gap-6 '>
+                                <div>
+                                    <InputLabel htmlFor="start_date" value="Start Date" />
+                                    <DatePicker
+                                        id="start_date"
+                                        selected={data.start_date}
+                                        onChange={(date) => setData('start_date', date)}
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                        dateFormat="dd-MM-yyyy"
+                                        placeholderText="Select date"
+                                    />
+                                    <InputError message={errors.start_date} className="mt-2" />
+                                </div>
+                                <div>
+                                    <InputLabel htmlFor="end_date" value="End Date" />
+                                    <DatePicker
+                                        id="end_date"
+                                        selected={data.end_date}
+                                        onChange={(date) => setData('end_date', date)}
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                        dateFormat="dd-MM-yyyy"
+                                        placeholderText="Select date"
+                                        minDate={data.start_date}
+                                    />
+                                    <InputError message={errors.end_date} className="mt-2" />
+                                </div>
                             </div>
                         </div>
 

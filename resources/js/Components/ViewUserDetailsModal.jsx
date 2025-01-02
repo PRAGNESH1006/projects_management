@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import Modal from '@/Components/Modal';
 
 function ViewUserDetailsModal({ user }) {
+    console.log(user)
     const [modalOpen, setModalOpen] = useState(false);
-
     const handleCloseModal = () => setModalOpen(false);
     const handleOpenModal = () => setModalOpen(true);
-console.log(user)
     return (
         <>
             <button

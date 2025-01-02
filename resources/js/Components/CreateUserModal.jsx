@@ -33,7 +33,6 @@ function CreateUserModal({ role }) {
             },
             onError: () => {
                 reset('password', 'password_confirmation');
-                console.log(errors);
             },
         });
 

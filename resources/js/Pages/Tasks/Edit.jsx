@@ -9,20 +9,20 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
-function Edit({ task, statuses, employees }) {
-  const { data, setData, post, errors, reset } = useForm({
-    title: task.title || '',
-    description: task.description || '',
-    project_id: task.project_id,
-    assigned_to: task.assigned_to || null,
-    start_date: task.start_date || '',
-    end_date: task.end_date || '',
-    status: task.status || null,
+function Edit({ task, statuses, employees, project }) {
+  const { data, setData, patch, errors, reset } = useForm({
+    title: task.title,
+    description: task.description,
+    project_id: project.project_id,
+    assigned_to: task.assigned_to,
+    start_date: task.start_date,
+    end_date: task.end_date,
+    status: task.status,
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    post(route('tasks.store'));
+    patch(route('tasks.update', task.id));
     reset()
   };
   return (
@@ -31,7 +31,7 @@ function Edit({ task, statuses, employees }) {
 
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">Update Task <span className='text-xs'>{data.project_id}</span></h1>
+          <h1 className="text-3xl font-bold text-gray-900">Update Task </h1>
           <Link
             href={route('tasks.index')}
             className="mt-4 md:mt-0 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow transition duration-300 ease-in-out flex items-center"
@@ -63,28 +63,26 @@ function Edit({ task, statuses, employees }) {
 
               <div>
                 <InputLabel htmlFor="project_id" value="Project" />
-                <ReactSelect
+                <TextInput
                   id="project_id"
                   name="project_id"
                   value={data.project_id}
-                  // onChange={(option) => setData('project_id', option?.value)}
-                  // options={projects.map(project => ({ value: project.id, label: project.title }))}
-                  placeholder="Select a Project"
+                  placeholder={project.title}
                   className="mt-1 block w-full"
+                  readOnly={true}
                 />
                 <InputError message={errors.project_id} className="mt-2" />
               </div>
 
               <div>
                 <InputLabel htmlFor="assigned_to" value="Assign Employee" />
-                <ReactSelect
+                <TextInput
                   id="assigned_to"
                   name="assigned_to"
-                  value={data.assigned_to}
-                  onChange={(option) => setData('assigned_to', option?.value)}
-                  options={employees.map(employee => ({ value: employee.id, label: employee.name }))}
-                  placeholder="Select an Employee"
+                  value={employees.name}
+                  placeholder={employees.name}
                   className="mt-1 block w-full"
+                  readOnly={true}
                 />
                 <InputError message={errors.assigned_to} className="mt-2" />
               </div>

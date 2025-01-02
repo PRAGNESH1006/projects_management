@@ -6,7 +6,6 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import ReactSelect from '@/Components/ReactSelect';
-import { Transition } from '@headlessui/react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -70,6 +69,42 @@ export default function Create({ clients, employees }) {
                             />
                             <InputError message={errors.title} className="mt-2" />
                         </div>
+                        <div>
+                            <InputLabel htmlFor="employee_ids" value="Assign Employees" />
+                            <ReactSelect
+                                id="employee_ids"
+                                name="employee_ids"
+                                isMulti
+                                closeMenuOnSelect={false}
+                                options={employeeOptions}
+                                value={employeeOptions.filter(option => data.employee_ids.includes(option.value))}
+                                onChange={(selectedOptions) =>
+                                    setData(
+                                        'employee_ids',
+                                        selectedOptions ? selectedOptions.map(option => option.value) : []
+                                    )
+                                }
+                                className="mt-1"
+                                isClearable={true}
+                                placeholder="Select Employees"
+                            />
+                            <InputError message={errors.employee_ids} className="mt-2" />
+                        </div>
+                        <div>
+                            <InputLabel htmlFor="client_id" value="Assign Client" />
+                            <ReactSelect
+                                id="client_id"
+                                name="client_id"
+                                options={clientOptions}
+                                value={data.client_id}
+                                onChange={(selectedOption) => setData('client_id', selectedOption.value)}
+                                className="mt-1 "
+                                isClearable={true}
+                                placeholder="Select a Client"
+                            />
+                            <InputError message={errors.client_id} className="mt-2" />
+                        </div>
+
                         <div className='flex gap-6 '>
                             <div>
                                 <InputLabel htmlFor="start_date" value="Start Date" />
@@ -97,69 +132,25 @@ export default function Create({ clients, employees }) {
                                 <InputError message={errors.end_date} className="mt-2" />
                             </div>
                         </div>
-                        <div>
-                            <InputLabel htmlFor="client_id" value="Assign Client" />
-                            <ReactSelect
-                                id="client_id"
-                                name="client_id"
-                                options={clientOptions}
-                                value={data.client_id}
-                                onChange={(selectedOption) => setData('client_id', selectedOption.value)}
-                                className="mt-1 "
-                                isClearable={true}
-                            />
-                            <InputError message={errors.client_id} className="mt-2" />
-                        </div>
-                        <div>
-                            <InputLabel htmlFor="employee_ids" value="Assign Employees" />
-                            <ReactSelect
-                                id="employee_ids"
-                                name="employee_ids"
-                                isMulti
-                                closeMenuOnSelect={false}
-                                options={employeeOptions}
-                                value={data.employee_ids}
-                                onChange={(selectedOptions) => setData('employee_ids', selectedOptions.map(option => option.value))}
-                                className="mt-1"
-                            />
-                            <InputError message={errors.employee_ids} className="mt-2" />
-                        </div>
                     </div>
-                        <div className='mt-6' >
-                            <InputLabel htmlFor="description" value="Description" />
-                            <textarea
-                                id="description"
-                                name="description"
-                                value={data.description}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                                rows="3"
-                                onChange={(e) => setData('description', e.target.value)}
-                            />
-                            <InputError message={errors.description} className="mt-2" />
-                        </div>
-
-                    <div className="mt-6">
-                        {/* <Transition
-                            show={isSubmitting}
-                            enter="transition ease-out duration-100"
-                            enterFrom="transform opacity-0 scale-95"
-                            enterTo="transform opacity-100 scale-100"
-                            leave="transition ease-in duration-75"
-                            leaveFrom="transform opacity-100 scale-100"
-                            leaveTo="transform opacity-0 scale-95"
-                        >
-                            <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 rounded-lg">
-                                <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-indigo-500"></div>
-                            </div>
-                        </Transition> */}
-                        <PrimaryButton
-                            type="submit"
-                            className="w-full justify-center bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
-                            disabled={processing || isSubmitting}
-                        >
-                            {isSubmitting ? 'Creating Project...' : 'Create Project'}
+                    <div className='mt-6'>
+                        <InputLabel htmlFor="description" value="Description" />
+                        <textarea
+                            id="description"
+                            name="description"
+                            value={data.description}
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            rows="4"
+                            onChange={(e) => setData('description', e.target.value)}
+                        />
+                        <InputError message={errors.description} className="mt-2" />
+                    </div>
+                    <div className="flex items-center justify-end mt-6">
+                        <PrimaryButton className="ml-4">
+                            Create Project
                         </PrimaryButton>
                     </div>
+
                 </form>
             </div>
         </AuthenticatedLayout>

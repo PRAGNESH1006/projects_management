@@ -29,6 +29,11 @@ class ClientDashboardController extends Controller
     public function index(): \Inertia\Response
     {
         $clients = $this->userRepository->getAllUserByRole('client');
+        $clientsProject = $clients->map(function ($client) {
+            $client->projects = $this->projectRepository->getProjectsByClient($client->id);
+            return $client;
+        });
+        // dd($clientsProject);
         return Inertia::render('Client/Index', compact('clients'));
     }
 

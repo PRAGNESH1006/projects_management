@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link,useForm  } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import { FaEllipsisV } from 'react-icons/fa';
 import DropdownMenu from './DropdownMenu';
 
@@ -49,8 +49,9 @@ export default function ProjectCard({ project, role }) {
                                 isOpen={dropdownOpen}
                                 onClose={closeDropdown}
                                 item={project}
-                                type="projects"  
+                                type="projects"
                                 destroy={destroy}
+                                role={role}
                             />
 
                         </div>

@@ -27,7 +27,6 @@ class StoreTaskRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'status' => ['required', 'string', 'max:255', new Enum(TaskStatusEnum::class)],
             'project_id' => 'required|exists:projects,id',
             'assigned_to' => 'required|exists:users,id',
             'start_date' => 'required|date',
@@ -45,7 +44,7 @@ class StoreTaskRequest extends FormRequest
         return [
             'title' => $this->input('title'),
             'description' => $this->input('description'),
-            'status' => $this->input('status'),
+           'status' => 'pending', 
             'project_id' => $this->input('project_id'),
             'assigned_to' => $this->input('assigned_to'),
             'created_by' => Auth::id(),

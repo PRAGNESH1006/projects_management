@@ -15,7 +15,6 @@ export default function Dashboard({
     projects,
     projectsCount,
 }) {
-    // console.log(data);
     const authUser = usePage().props.auth.user;
     const pieChartData = [
         { name: 'Completed', value: completedTasks, color: '#4CAF50' },

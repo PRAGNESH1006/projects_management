@@ -66,9 +66,10 @@ class TaskController extends BaseController
     {
         $statuses = TaskStatusEnum::options();
         $task = $this->taskRepository->getById($task->id);
-        $employees = $this->userRepository->getAllUserByRole('employee');
+        $project=$task->project;
+        $employees = $this->userRepository->getById($task->assigned_to);
 
-        return Inertia::render('Tasks/Edit', compact('task', 'employees', 'statuses'));
+        return Inertia::render('Tasks/Edit', compact('task', 'employees', 'statuses','project'));
     }
 
     public function update(Task $task, UpdateTaskRequest $request): RedirectResponse

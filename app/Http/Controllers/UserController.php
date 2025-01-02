@@ -35,10 +35,6 @@ class UserController extends BaseController
         return Inertia::render('Users/Show', compact('user'));
     }
 
-    // public function create(): Response
-    // {
-    //     return Inertia::render('Users/Create');
-    // }
 
     public function store(StoreUserOrClientRequest $request)
     {
