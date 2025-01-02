@@ -4,12 +4,13 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import ReactSelect from '@/Components/ReactSelect';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 function Edit({ task, statuses, employees, project }) {
+  const user = usePage().props.auth.user;
   const { data, setData, patch, errors, reset } = useForm({
     title: task.title,
     description: task.description,
@@ -29,16 +30,13 @@ function Edit({ task, statuses, employees, project }) {
     <AuthenticatedLayout>
       <Head title="Create Task" />
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 max-w-[700px]">
         <div className="flex flex-col md:flex-row justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900">Update Task </h1>
           <Link
-            href={route('tasks.index')}
-            className="mt-4 md:mt-0 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow transition duration-300 ease-in-out flex items-center"
+            href={route(user.role === 'admin' ? 'tasks.index' : `${user.role}.tasks`, user.id)}
+            className="mt-4 md:mt-0 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1"
           >
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
             Back to Tasks
           </Link>
         </div>
@@ -47,7 +45,7 @@ function Edit({ task, statuses, employees, project }) {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <InputLabel htmlFor="title" value="Task Name" />
+                <InputLabel htmlFor="title" value="Task Title" />
                 <TextInput
                   id="title"
                   type="text"
@@ -86,49 +84,47 @@ function Edit({ task, statuses, employees, project }) {
                 />
                 <InputError message={errors.assigned_to} className="mt-2" />
               </div>
-
-              <div>
-                <InputLabel htmlFor="status" value="Status" />
-                <ReactSelect
-                  id="status"
-                  name="status"
-                  value={data.status}
-                  onChange={(option) => setData('status', option?.value)}
-                  options={statuses}
-                  placeholder="Select Status"
-                  className="mt-1 block w-full"
-                />
-                <InputError message={errors.status} className="mt-2" />
-              </div>
-
-              <div>
-                <InputLabel htmlFor="start_date" value="Start Date" />
-                <DatePicker
-                  id="start_date"
-                  selected={data.start_date}
-                  onChange={(date) => setData('start_date', date)}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                  dateFormat="dd-MM-yyyy"
-                  placeholderText="Select start date"
-                />
-                <InputError message={errors.start_date} className="mt-2" />
-              </div>
-
-              <div>
-                <InputLabel htmlFor="end_date" value="End Date" />
-                <DatePicker
-                  id="end_date"
-                  selected={data.end_date}
-                  onChange={(date) => setData('end_date', date)}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                  dateFormat="dd-MM-yyyy"
-                  placeholderText="Select end date"
-                  minDate={data.start_date}
-                />
-                <InputError message={errors.end_date} className="mt-2" />
+              <div className='flex gap-6 '>
+                <div>
+                  <InputLabel htmlFor="start_date" value="Start Date" />
+                  <DatePicker
+                    id="start_date"
+                    selected={data.start_date}
+                    onChange={(date) => setData('start_date', date)}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    dateFormat="dd-MM-yyyy"
+                    placeholderText="Select date"
+                  />
+                  <InputError message={errors.start_date} className="mt-2" />
+                </div>
+                <div>
+                  <InputLabel htmlFor="end_date" value="End Date" />
+                  <DatePicker
+                    id="end_date"
+                    selected={data.end_date}
+                    onChange={(date) => setData('end_date', date)}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    dateFormat="dd-MM-yyyy"
+                    placeholderText="Select date"
+                    minDate={data.start_date}
+                  />
+                  <InputError message={errors.end_date} className="mt-2" />
+                </div>
               </div>
             </div>
-
+            <div>
+              <InputLabel htmlFor="status" value="Status" />
+              <ReactSelect
+                id="status"
+                name="status"
+                value={data.status}
+                onChange={(option) => setData('status', option?.value)}
+                options={statuses}
+                placeholder="Select Status"
+                className="mt-1 block w-full"
+              />
+              <InputError message={errors.status} className="mt-2" />
+            </div>
             <div>
               <InputLabel htmlFor="description" value="Description" />
               <textarea
@@ -143,6 +139,7 @@ function Edit({ task, statuses, employees, project }) {
             </div>
 
             <div className="flex items-center justify-end mt-6">
+
               <PrimaryButton className="ml-4">
                 Update Task
               </PrimaryButton>

@@ -44,7 +44,7 @@ export default function Create({ employees, projects, statuses }) {
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <InputLabel htmlFor="title" value="Task Name" />
+                                <InputLabel htmlFor="title" value="Task Title" />
                                 <TextInput
                                     id="title"
                                     type="text"

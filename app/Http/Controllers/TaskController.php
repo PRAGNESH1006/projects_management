@@ -37,7 +37,8 @@ class TaskController extends BaseController
 
     public function show(Task $task): Response
     {
-        return Inertia::render('Tasks/Show', compact('task'));
+        $task=$task->load('project','assignedUser','creator','updater',);
+        return Inertia::render('Tasks/Show', compact('task',));
     }
  
     public function create(): Response

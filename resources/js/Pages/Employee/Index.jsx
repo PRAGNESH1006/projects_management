@@ -2,7 +2,7 @@ import CreateUserModal from '@/Components/CreateUserModal';
 import UserCard from '@/Components/UserCard';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, usePage } from '@inertiajs/react';
-import React from 'react';
+import React, { use } from 'react';
 
 export default function Index({ employees }) {
     const authUser = usePage().props.auth.user;

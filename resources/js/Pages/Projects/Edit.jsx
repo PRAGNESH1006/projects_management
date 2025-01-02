@@ -27,8 +27,8 @@ export default function Update({ clients, employees, project }) {
     patch(route('projects.update', project.id), {
       preserveScroll: true,
       onSuccess: () => {
-        reset();
         setIsSubmitting(false);
+        reset();
       },
       onError: () => {
         setIsSubmitting(false);
@@ -38,7 +38,6 @@ export default function Update({ clients, employees, project }) {
 
   const clientOptions = clients.map(client => ({ value: client.id, label: client.name }));
   const employeeOptions = employees.map(employee => ({ value: employee.id, label: employee.name }));
-  console.log(project)
   return (
     <AuthenticatedLayout>
       <Head title="Update Project Details" />

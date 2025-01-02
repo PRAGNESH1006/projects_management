@@ -26,12 +26,14 @@ class UserController extends BaseController
 
     public function index(): Response
     {
-        $users = $this->userRepository->getAll();
+        $users = $this->userRepository->getAll()->load('clientDetail');
         return Inertia::render('Users/Index', compact('users'));
     }
 
     public function show(User $user): Response
     {
+        $user=$user->load('clientDetail');
+
         return Inertia::render('Users/Show', compact('user'));
     }
 
@@ -42,17 +44,15 @@ class UserController extends BaseController
         try {
             $userData = $request->getInsertableFields();
             $user = $this->userRepository->store($userData);
-
             if ($user->role === 'client') {
                 $clientDetailData = [
                     'user_id' => $user->id,
                     'company_name' => $request->input('company_name'),
                     'contact_number' => $request->input('contact_number'),
-                ];
+                ]; 
                 $this->clientDetailRepository->store($clientDetailData);
             }
             DB::commit();
-
             if ($user->role->value == 'admin') {
                 return $this->sendRedirectResponse(route('users.index'), 'User and Client Details Added Successfully');
             } else {
@@ -60,7 +60,7 @@ class UserController extends BaseController
             }
         } catch (Throwable $e) {
             DB::rollBack();
-            return $this->sendRedirectError(route('users.create'), 'Failed to add user and client details: ' . $e->getMessage());
+            return $this->sendRedirectError(route('users.index'), 'Failed to add user and client details: ' . $e->getMessage());
         }
     }
 

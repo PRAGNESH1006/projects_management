@@ -25,15 +25,14 @@ class ClientDashboardController extends Controller
         $tasks = $this->projectRepository->getTasksByClient(Auth::user()->id);
         return Inertia::render('Client/Dashboard', compact('projects', 'tasks'));
     }
-
+  
     public function index(): \Inertia\Response
     {
-        $clients = $this->userRepository->getAllUserByRole('client');
-        $clientsProject = $clients->map(function ($client) {
-            $client->projects = $this->projectRepository->getProjectsByClient($client->id);
-            return $client;
-        });
-        // dd($clientsProject);
+        $clients = $this->userRepository->getAllUserByRole('client')->load('clientDetail');
+        // $clientsProject = $clients->map(function ($client) {
+        //     $client->projects = $this->projectRepository->getProjectsByClient($client->id);
+        //     return $client;
+        // });
         return Inertia::render('Client/Index', compact('clients'));
     }
 

@@ -27,8 +27,8 @@ export default function Create({ clients, employees }) {
         post(route('projects.store'), {
             preserveScroll: true,
             onSuccess: () => {
-                reset();
                 setIsSubmitting(false);
+                reset();
             },
             onError: () => {
                 setIsSubmitting(false);

@@ -1,7 +1,7 @@
 import DashboardCard from '@/Components/DashboardCard';
 import RecentSection from '@/Components/RecentSection';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, usePage } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 export default function Dashboard({
@@ -15,7 +15,6 @@ export default function Dashboard({
     projects,
     projectsCount,
 }) {
-    const authUser = usePage().props.auth.user;
     const pieChartData = [
         { name: 'Completed', value: completedTasks, color: '#4CAF50' },
         { name: 'Pending', value: pendingTasks, color: '#FFC107' },

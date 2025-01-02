@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Modal from '@/Components/Modal';
 
 function ViewUserDetailsModal({ user }) {
-    console.log(user)
     const [modalOpen, setModalOpen] = useState(false);
     const handleCloseModal = () => setModalOpen(false);
     const handleOpenModal = () => setModalOpen(true);
@@ -35,11 +34,11 @@ function ViewUserDetailsModal({ user }) {
                             <>
                                 <div>
                                     <p className="font-medium text-gray-700">Company Name:</p>
-                                    <p className="text-gray-900">{user?.company_name || 'N/A'}</p>
+                                    <p className="text-gray-900">{user?.client_detail?.company_name || 'N/A'}</p>
                                 </div>
                                 <div>
                                     <p className="font-medium text-gray-700">Contact Number:</p>
-                                    <p className="text-gray-900">{user?.contact_number || 'N/A'}</p>
+                                    <p className="text-gray-900">{user?.client_detail?.contact_number || 'N/A'}</p>
                                 </div>
                             </>
                         )}
