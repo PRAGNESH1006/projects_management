@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\RoleEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules\Enum;
 
 class StoreUserOrClientRequest extends FormRequest

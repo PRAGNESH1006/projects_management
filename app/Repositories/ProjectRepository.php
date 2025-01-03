@@ -51,4 +51,14 @@ class ProjectRepository extends BaseRepository
             })
             ->get();
     }
+
+    public function getProjectEmployees($id)
+    {
+        return $this->newQuery()
+            ->where('id', $id)
+            ->with('users')
+            ->first()
+            ->users
+            ->select('id', 'name');
+    }
 }

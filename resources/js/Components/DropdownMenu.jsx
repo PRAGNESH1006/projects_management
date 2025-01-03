@@ -1,9 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-import { Link ,usePage} from '@inertiajs/react';
-import UpdateUserModal from './UpdateUserModal';
+import { Link } from '@inertiajs/react';
 
-function DropdownMenu({ isOpen, onClose, item, type, destroy,role }) {
+function DropdownMenu({ isOpen, onClose, item, type, destroy ,role }) {
     const dropdownRef = useRef(null);
     const [isDeleting, setIsDeleting] = useState(false);
 

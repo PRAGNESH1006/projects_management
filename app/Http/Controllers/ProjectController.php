@@ -46,7 +46,8 @@ class ProjectController extends BaseController
     {
         $clients = $this->userRepository->getUsersWithNameId('client');
         $employees = $this->userRepository->getUsersWithNameId('employee');
-        return Inertia::render('Projects/Edit', compact('project', 'clients', 'employees'));
+        $projectEmployees = $this->projectRepository->getProjectEmployees($project->id);
+        return Inertia::render('Projects/Edit', compact('project', 'clients', 'employees' ,'projectEmployees'));
     }
 
     public function store(StoreProjectRequest $request): RedirectResponse

@@ -149,7 +149,7 @@ function CreateUserModal({ role }) {
                         )}
 
                         <div className="mt-4 col-span-2">
-                            <PrimaryButton className="w-full" processing={processing}>
+                            <PrimaryButton processing={processing}>
                                 Create {role.charAt(0).toUpperCase() + role.slice(1)}
                             </PrimaryButton>
                         </div>

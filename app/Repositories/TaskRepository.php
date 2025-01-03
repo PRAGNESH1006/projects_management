@@ -36,7 +36,32 @@ class TaskRepository extends BaseRepository
             ->get();
     }
 
-    //////////////
+    public function getAllTaskCompletionStats(): array
+    {
+        $totalTasks = $this->newQuery()
+            ->count();
+        $completedTasks = $this->newQuery()
+            ->where('status', 'completed')
+            ->count();
+        $pendingTasks = $this->newQuery()
+            ->where('status', 'pending')
+            ->count();
+        $inProgressTasks = $this->newQuery()->where('status', 'in_progress')
+            ->count();
+        $overdueTasks = $this->newQuery()
+            ->where('end_date', '<', now())
+            ->where('status', '!=', 'completed')
+            ->count();
+
+        return [
+            'total' => $totalTasks,
+            'completed' => $completedTasks,
+            'pending' => $pendingTasks,
+            'in_progress' => $inProgressTasks,
+            'overdue' => $overdueTasks,
+        ];
+    }
+
     public function getTasksByEmployee($employeeId): Collection
     {
         return $this->newQuery()

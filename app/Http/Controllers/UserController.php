@@ -8,7 +8,7 @@ use App\Http\Requests\StoreUserOrClientRequest;
 use App\Http\Requests\UpdateUserOrClientRequest;
 use App\Repositories\ClientDetailRepository;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 use Throwable;
@@ -32,7 +32,7 @@ class UserController extends BaseController
 
     public function show(User $user): Response
     {
-        $user=$user->load('clientDetail');
+        $user = $user->load('clientDetail','updatedBy');
 
         return Inertia::render('Users/Show', compact('user'));
     }
@@ -44,21 +44,22 @@ class UserController extends BaseController
         try {
             $userData = $request->getInsertableFields();
             $user = $this->userRepository->store($userData);
-            if ($user->role === 'client') {
+            if ($user->role->value === 'client') {
                 $clientDetailData = [
                     'user_id' => $user->id,
                     'company_name' => $request->input('company_name'),
                     'contact_number' => $request->input('contact_number'),
-                ]; 
+                ];
                 $this->clientDetailRepository->store($clientDetailData);
             }
             DB::commit();
-            if ($user->role->value == 'admin') {
+            if ($user->role->value === 'admin') {
                 return $this->sendRedirectResponse(route('users.index'), 'User and Client Details Added Successfully');
             } else {
                 return $this->sendRedirectResponse(route($user->role->value . '.index'), 'User and Client Details Added Successfully');
             }
         } catch (Throwable $e) {
+            Log::error('Transaction Failed:', ['error' => $e->getMessage()]);
             DB::rollBack();
             return $this->sendRedirectError(route('users.index'), 'Failed to add user and client details: ' . $e->getMessage());
         }
@@ -76,13 +77,14 @@ class UserController extends BaseController
         try {
             $userData = $request->getUpdateableFields();
             $user = $this->userRepository->update($user->id, $userData);
-            if ($user->role === 'client') {
+            if ($user->role->value === 'client') {
+                $clientDetailId = $this->clientDetailRepository->getClientDetailByUserId($user->id)->first()->id;
                 $clientDetailData = [
                     'user_id' => $user->id,
                     'company_name' => $request->input('company_name'),
                     'contact_number' => $request->input('contact_number'),
                 ];
-                $this->clientDetailRepository->update($user->id, $clientDetailData);
+                $this->clientDetailRepository->update($clientDetailId, $clientDetailData);
             }
             DB::commit();
 

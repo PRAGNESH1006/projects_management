@@ -14,6 +14,7 @@ export default function Dashboard({
     recentActivities,
     projects,
     projectsCount,
+    auth
 }) {
     const pieChartData = [
         { name: 'Completed', value: completedTasks, color: '#4CAF50' },
@@ -29,9 +30,8 @@ export default function Dashboard({
                 </div>
 
                 <div className="grid grid-cols-1 gap-6 mb-8 sm:grid-cols-2 lg:grid-cols-4">
-                    {/* <DashboardCard title="Clients" count={clientCount} icon="🤝" color="bg-purple-500" createRoute="users.create" viewRoute="client.index" /> */}
-                    <DashboardCard title="Projects" count={projectsCount} icon="📊" color="bg-blue-500" viewRoute="projects.index" />
-                    <DashboardCard title="Tasks" count={tasksCount} icon="✅" color="bg-green-500" viewRoute="tasks.index" />
+                    <DashboardCard title="Projects" count={projectsCount} icon="📊" color="bg-blue-500"/>
+                    <DashboardCard title="Tasks" count={tasksCount} icon="✅" color="bg-green-500" />
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -58,13 +58,10 @@ export default function Dashboard({
                     <RecentSection
                         title="Recent Activities"
                         items={recentActivities}
-                        viewAllRoute="tasks.index"
                         itemType="activity"
                     />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 ">
-                    {/* <RecentSection title="Recent Projects" items={projects} viewAllRoute="projects.index" />
-                    <RecentSection title="Recent Tasks" items={recentTasks} viewAllRoute="tasks.index" /> */}
                     <RecentSection
                         title="Recent Tasks"
                         items={recentTasks}
@@ -79,27 +76,6 @@ export default function Dashboard({
                         itemType="project"
                     />
                 </div>
-                {/* <div className="recent-tasks">
-                    <h3>Recent Tasks</h3>
-                    <ul>
-                        {recentTasks.map((task) => (
-                            <li key={task.id}>
-                                {task.title} - {task.status} - Due: {new Date(task.end_date).toLocaleDateString()}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-
-                <div className="recent-activities">
-                    <h3>Recent Activities</h3>
-                    <ul>
-                        {recentActivities.map((activity) => (
-                            <li key={activity.id}>
-                                {activity.title} - {activity.status} - Updated: {new Date(activity.updated_at).toLocaleString()}
-                            </li>
-                        ))}
-                    </ul>
-                </div> */}
             </div>
         </AuthenticatedLayout>
     );

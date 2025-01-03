@@ -35,6 +35,7 @@ class AdminDashboardController extends Controller
         $recentTasks = $this->taskRepository->getRecentTasks(10);
         $recentClients = $this->userRepository->getRecentUsersByRole('client', 5);
         $recentEmployees = $this->userRepository->getRecentUsersByRole('employee', 5);
+        $allTaskCompletionStats = $this->taskRepository->getAllTaskCompletionStats();
 
         return Inertia::render('Admin/Dashboard', compact(
             'projectCount',
@@ -44,7 +45,8 @@ class AdminDashboardController extends Controller
             'recentProjects',
             'recentTasks',
             'recentClients',
-            'recentEmployees'
+            'recentEmployees',
+            'allTaskCompletionStats'
         ));        
     }
 }

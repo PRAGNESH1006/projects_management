@@ -108,6 +108,7 @@ abstract class BaseRepository implements RepositoryInterface
     public function update($id, array $inputs): mixed
     {
         $model = $this->getById($id);
+        
         if ($model) {
             $model->update($inputs);
 

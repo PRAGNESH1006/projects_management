@@ -9,12 +9,13 @@ import ReactSelect from '@/Components/ReactSelect';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function Update({ clients, employees, project }) {
+export default function Update({ clients, employees, project, projectEmployees }) {
+  console.log(projectEmployees)
   const { data, setData, patch, errors, reset } = useForm({
     title: project.title || '',
     description: project.description || '',
     client_id: project.client_id || '',
-    employee_ids: [],
+    employee_ids: projectEmployees.map(emp => emp.id) || [],
     start_date: project.start_date || null,
     end_date:project.end_date || null,
   });

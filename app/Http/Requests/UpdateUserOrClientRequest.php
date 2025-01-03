@@ -5,6 +5,9 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
+use App\Enums\RoleEnum;
+
 
 class UpdateUserOrClientRequest extends FormRequest
 {
@@ -22,12 +25,12 @@ class UpdateUserOrClientRequest extends FormRequest
                 'email',
                 Rule::unique('users')->ignore($this->route('user')),
             ],
-            'role' => 'required|in:admin,employee,client',
+            'role' => ['required', new Enum(RoleEnum::class)]
         ];
 
         if ($this->input('role') === 'client') {
             $rules['company_name'] = 'required|string|max:255';
-            $rules['contact_number'] = 'required|string|max:20';
+            $rules['contact_number'] = 'required|numeric|digits:10';
         }
 
         return $rules;
@@ -38,6 +41,8 @@ class UpdateUserOrClientRequest extends FormRequest
         return [
             'company_name.required' => 'The company name is required for clients.',
             'contact_number.required' => 'The contact number is required for clients.',
+            'contact_number.numeric' => 'The contact number must be a valid number.',
+            'contact_number.digits' => 'The contact number must be exactly 10 digits.',
         ];
     }
 

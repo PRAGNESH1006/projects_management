@@ -7,9 +7,11 @@ export default function RecentSection({ title, items, viewAllRoute }) {
             <div className="p-6">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-2xl font-semibold text-gray-900">{title}</h2>
-                    <Link href={route(viewAllRoute)} className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                    {viewAllRoute &&
+                        <Link href={route(viewAllRoute)} className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
                         View all
                     </Link>
+                    }
                 </div>
                 {items.length === 0 ? (
                     <p className="text-gray-500">No recent items found</p>
@@ -35,10 +37,8 @@ export default function RecentSection({ title, items, viewAllRoute }) {
                                             </p>
                                         </div>
                                         <p className="text-xs text-gray-500 truncate">
-                                            { `Updated: ${new Date(item.updated_at).toLocaleString()} ` }
+                                            {`Updated: ${new Date(item.updated_at).toLocaleString()} `}
                                         </p>
-                                        {/* <Link href={route(`${item.name || item.title}.show`, item.id)}>Show</Link> */}
-                                        {/* <span>{item.created_by}</span> */}
                                     </div>
                                 </li>
                             ))}
