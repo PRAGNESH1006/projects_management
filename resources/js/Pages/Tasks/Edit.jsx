@@ -20,7 +20,6 @@ function Edit({ task, statuses, employees, project }) {
     end_date: task.end_date,
     status: task.status,
   });
-
   const handleSubmit = (e) => {
     e.preventDefault();
     patch(route('tasks.update', task.id));
@@ -29,7 +28,6 @@ function Edit({ task, statuses, employees, project }) {
   return (
     <AuthenticatedLayout>
       <Head title="Create Task" />
-
       <div className="container mx-auto px-4 py-8 max-w-[700px]">
         <div className="flex flex-col md:flex-row justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900">Update Task </h1>

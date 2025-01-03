@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 
-class EmployeeDashboardController extends Controller
+class EmployeeController extends Controller
 {
     protected UserRepository $userRepository;
     protected TaskRepository $taskRepository;
@@ -54,12 +54,12 @@ class EmployeeDashboardController extends Controller
     public function tasks(User $user): \Inertia\Response
     {
         $tasks = $this->taskRepository->getTasksByEmployee($user->id);
-        return Inertia::render('Employee/Tasks', compact('tasks'));
+        return Inertia::render('Tasks/Index', compact('tasks'));
     }
 
     public function projects(User $user): \Inertia\Response
     {
         $projects = $this->taskRepository->getProjectsByEmployee($user->id);
-        return Inertia::render('Employee/Projects', compact('projects'));
+        return Inertia::render('Projects/Index', compact('projects'));
     }
 }

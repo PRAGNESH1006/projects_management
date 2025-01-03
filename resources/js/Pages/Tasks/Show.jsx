@@ -2,6 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head, Link } from '@inertiajs/react'
 import InputLabel from '@/Components/InputLabel'
 import React from 'react'
+import moment from 'moment/moment'
 
 export default function Show({ task ,auth }) {
 
@@ -14,10 +15,6 @@ export default function Show({ task ,auth }) {
         </div>
       </AuthenticatedLayout>
     )
-  }
-
-  const formatDate = (date) => {
-    return date ? new Date(date).toLocaleDateString() : 'N/A';
   }
 
   return (
@@ -73,12 +70,12 @@ export default function Show({ task ,auth }) {
 
             <div>
               <InputLabel htmlFor="start_date" className="block text-sm font-medium text-gray-700" value={"Start Date"} />
-              <p className="mt-1 block w-full">{formatDate(task.start_date)}</p>
+              <p className="mt-1 block w-full">{moment(task.start_date).format("dddd, MMMM Do YYYY")}</p>
             </div>
 
             <div>
               <InputLabel htmlFor="due_date" className="block text-sm font-medium text-gray-700" value={"Due Date"} />
-              <p className="mt-1 block w-full">{formatDate(task.end_date)}</p>
+              <p className="mt-1 block w-full">{moment(task.end_date).format("dddd, MMMM Do YYYY")}</p>
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@ use App\Repositories\UserRepository;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class AdminDashboardController extends Controller
+class AdminController extends Controller
 {
     protected $projectRepository;
     protected $taskRepository;

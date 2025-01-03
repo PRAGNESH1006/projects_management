@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
@@ -19,19 +19,15 @@ export default function Create({ clients, employees }) {
         end_date: null,
     });
 
-    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const submit = (e) => {
         e.preventDefault();
-        setIsSubmitting(true);
         post(route('projects.store'), {
             preserveScroll: true,
             onSuccess: () => {
-                setIsSubmitting(false);
                 reset();
             },
             onError: () => {
-                setIsSubmitting(false);
             },
         });
     };
@@ -40,8 +36,7 @@ export default function Create({ clients, employees }) {
     const employeeOptions = employees.map(employee => ({ value: employee.id, label: employee.name }));
 
     return (
-        <AuthenticatedLayout>
-            <Head title="Create Project" />
+        <AuthenticatedLayout header={"Create Project"}>
             <div className="container mx-auto px-4 py-8 max-w-[700px]">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-6">
                     <h1 className="text-3xl font-bold text-gray-900">Create New Project</h1>

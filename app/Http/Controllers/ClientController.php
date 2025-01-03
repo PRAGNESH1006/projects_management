@@ -8,11 +8,11 @@ use App\Repositories\ProjectRepository;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-class ClientDashboardController extends Controller
+class ClientController extends Controller
 {
     protected UserRepository $userRepository;
     protected ProjectRepository $projectRepository;
-
+ 
     public function __construct(UserRepository $userRepository, ProjectRepository $projectRepository)
     {
         $this->userRepository = $userRepository;
@@ -29,17 +29,13 @@ class ClientDashboardController extends Controller
     public function index(): \Inertia\Response
     {
         $clients = $this->userRepository->getAllUserByRole('client')->load('clientDetail');
-        // $clientsProject = $clients->map(function ($client) {
-        //     $client->projects = $this->projectRepository->getProjectsByClient($client->id);
-        //     return $client;
-        // });
         return Inertia::render('Client/Index', compact('clients'));
     }
 
     public function projects(User $user): \Inertia\Response
     {
         $projects = $this->projectRepository->getProjectsByClient($user->id);
-        return Inertia::render('Client/Projects', compact('projects'));
+        return Inertia::render('Projects/Index', compact('projects'));
     }
 
     public function tasks(User $user): \Inertia\Response

@@ -2,9 +2,9 @@
 
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AdminDashboardController;
-use App\Http\Controllers\EmployeeDashboardController;
-use App\Http\Controllers\ClientDashboardController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
@@ -24,25 +24,24 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::resource('tasks', TaskController::class);
     Route::resource('projects', ProjectController::class);
-    // Route::resource('client-details', ClientDetailController::class);
 
     Route::middleware(['role:admin'])->group(function () {
 
-        Route::get('admin/dashboard', [AdminDashboardController::class, 'show'])->name('admin.dashboard');
-        Route::get('allClients', [ClientDashboardController::class, 'index'])->name('client.index');
-        Route::get('allEmployees', [EmployeeDashboardController::class, 'index'])->name('employee.index');
+        Route::get('admin/dashboard', [AdminController::class, 'show'])->name('admin.dashboard');
+        Route::get('allClients', [ClientController::class, 'index'])->name('client.index');
+        Route::get('allEmployees', [EmployeeController::class, 'index'])->name('employee.index');
         Route::resource('users', UserController::class);
     });
     Route::middleware(['role:client'])->group(function () {
-        Route::get('client/dashboard', [ClientDashboardController::class, 'show'])->name('client.dashboard');
-        Route::get('client/{user}/tasks', [ClientDashboardController::class, 'tasks'])->name('client.tasks');
-        Route::get('client/{user}/projects', [ClientDashboardController::class, 'projects'])->name('client.projects');
+        Route::get('client/dashboard', [ClientController::class, 'show'])->name('client.dashboard');
+        Route::get('client/{user}/tasks', [ClientController::class, 'tasks'])->name('client.tasks');
+        Route::get('client/{user}/projects', [ClientController::class, 'projects'])->name('client.projects');
     });
 
     Route::middleware(['role:employee'])->group(function () {
-        Route::get('employee/dashboard', [EmployeeDashboardController::class, 'show'])->name('employee.dashboard');
-        Route::get('employee/{user}/tasks', [EmployeeDashboardController::class, 'tasks'])->name('employee.tasks');
-        Route::get('employee/{user}/projects', [EmployeeDashboardController::class, 'projects'])->name('employee.projects');
+        Route::get('employee/dashboard', [EmployeeController::class, 'show'])->name('employee.dashboard');
+        Route::get('employee/{user}/tasks', [EmployeeController::class, 'tasks'])->name('employee.tasks');
+        Route::get('employee/{user}/projects', [EmployeeController::class, 'projects'])->name('employee.projects');
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

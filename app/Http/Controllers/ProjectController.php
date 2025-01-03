@@ -44,7 +44,7 @@ class ProjectController extends BaseController
 
     public function edit(Project $project): \Inertia\Response
     {
-        $clients = $this->userRepository->getUsersWithNameId('client');
+        $clients = $this->userRepository->getUsersWithNameId('client'); 
         $employees = $this->userRepository->getUsersWithNameId('employee');
         $projectEmployees = $this->projectRepository->getProjectEmployees($project->id);
         return Inertia::render('Projects/Edit', compact('project', 'clients', 'employees' ,'projectEmployees'));

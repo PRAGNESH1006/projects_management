@@ -7,7 +7,7 @@ import TextInput from '@/Components/TextInput';
 
 function CreateUserModal({ role }) {
     const [modalOpen, setModalOpen] = useState(false);
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors, setError, reset,clearErrors } = useForm({
         name: '',
         email: '',
         password: '',
@@ -16,9 +16,10 @@ function CreateUserModal({ role }) {
         company_name: '',
         contact_number: '',
     });
-
+    
 
     const handleSubmit = (e) => {
+        clearErrors();
         e.preventDefault();
 
         if (data.password !== data.password_confirmation) {
@@ -38,14 +39,15 @@ function CreateUserModal({ role }) {
 
     };
     const handleCloseModal = () => {
-        setModalOpen(false)
-        reset()
-    };
-    const handleOpenModal = () => setModalOpen(true);
+        clearErrors();
 
-    useEffect(() => {
+        setModalOpen(false)
         reset();
-    }, [role]);
+    };
+    const handleOpenModal = () => {
+        setModalOpen(true)
+    };
+
 
     return (
         <>
@@ -58,8 +60,15 @@ function CreateUserModal({ role }) {
 
             <Modal show={modalOpen} onClose={handleCloseModal} maxWidth="md" >
                 <div className="p-6 ">
-                    <h2 className="text-2xl font-semibold text-gray-900 mb-4">Create New {role.charAt(0).toUpperCase() + role.slice(1)}</h2>
-
+                    <div className='flex justify-between items-center mb-6'>
+                        <h2 className="text-2xl font-semibold text-gray-900 ">Create New {role.charAt(0).toUpperCase() + role.slice(1)}</h2>
+                        <button
+                            onClick={handleCloseModal}
+                            className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white text-xs font-medium rounded-md transition-colors duration-300"
+                        >
+                            Close
+                        </button>
+                    </div>
                     <form onSubmit={handleSubmit} className="">
                         <div className="mt-4 ">
                             <TextInput

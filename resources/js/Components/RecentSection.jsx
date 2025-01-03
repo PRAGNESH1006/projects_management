@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
+import moment from 'moment';
 
 export default function RecentSection({ title, items, viewAllRoute }) {
     return (
@@ -37,7 +38,7 @@ export default function RecentSection({ title, items, viewAllRoute }) {
                                             </p>
                                         </div>
                                         <p className="text-xs text-gray-500 truncate">
-                                            {`Updated: ${new Date(item.updated_at).toLocaleString()} `}
+                                            {`Updated: ${moment(item.updated_at).format("MMMM Do YYYY")} `}
                                         </p>
                                     </div>
                                 </li>

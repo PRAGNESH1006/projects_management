@@ -1,15 +1,14 @@
-import CreateUserModal from '@/Components/CreateUserModal';
-import UserCard from '@/Components/UserCard';
+import CreateUserModal from '@/Pages/Users/Partials/CreateUserModal';
+import UserCard from '@/Pages/Users/Partials/UserCard';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import React from 'react';
 
 export default function Index({ clients }) {
     const user = usePage().props.auth.user;
 
     return (
-        <AuthenticatedLayout>
-            <Head title="Employees" />
+        <AuthenticatedLayout  header={"Clients"}>
             <div className='container mx-auto px-4'>
                 <div className="flex flex-col md:flex-row justify-between items-center py-4 mb-6 border-b">
                     <h1 className="text-3xl font-semibold text-gray-800">Clients</h1>

@@ -1,8 +1,7 @@
+import Chart from '@/Components/Chart';
 import DashboardCard from '@/Components/DashboardCard';
 import RecentSection from '@/Components/RecentSection';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 export default function Dashboard({
     tasksCount,
@@ -14,7 +13,6 @@ export default function Dashboard({
     recentActivities,
     projects,
     projectsCount,
-    auth
 }) {
     const pieChartData = [
         { name: 'Completed', value: completedTasks, color: '#4CAF50' },
@@ -22,8 +20,7 @@ export default function Dashboard({
         { name: 'Overdue', value: overdueTasks, color: '#F44336' },
     ];
     return (
-        <AuthenticatedLayout>
-            <Head title="Employees" />
+        <AuthenticatedLayout  header={"Employee Dashboard"}>
             <div className='container mx-auto px-4 pb-2'>
                 <div className="flex flex-col md:flex-row justify-between items-center py-4 mb-6 border-b">
                     <h1 className="text-3xl font-semibold text-gray-800">Dashboard</h1>
@@ -37,22 +34,7 @@ export default function Dashboard({
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6">
                             <h2 className="text-2xl font-semibold text-gray-900 mb-4">Overview</h2>
-                            <ResponsiveContainer width="100%" height={300}>
-                                <PieChart>
-                                    <Pie
-                                        data={pieChartData}
-                                        cx="50%"
-                                        cy="50%"
-                                        outerRadius={80}
-                                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                                        dataKey="value"
-                                    >
-                                        {pieChartData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={entry.color} />
-                                        ))}
-                                    </Pie>
-                                </PieChart>
-                            </ResponsiveContainer>
+                            <Chart pieChartData={pieChartData}/>
                         </div>
                     </div>
                     <RecentSection

@@ -20,28 +20,21 @@ export default function Update({ clients, employees, project, projectEmployees }
     end_date:project.end_date || null,
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const submit = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
     patch(route('projects.update', project.id), {
       preserveScroll: true,
       onSuccess: () => {
-        setIsSubmitting(false);
         reset();
-      },
-      onError: () => {
-        setIsSubmitting(false);
-      },
+      }
     });
   };
 
   const clientOptions = clients.map(client => ({ value: client.id, label: client.name }));
   const employeeOptions = employees.map(employee => ({ value: employee.id, label: employee.name }));
   return (
-    <AuthenticatedLayout>
-      <Head title="Update Project Details" />
+    <AuthenticatedLayout header={"Update Project Details" }>
       <div className="container mx-auto px-4 py-8 max-w-[700px]">
         <div className="flex flex-col md:flex-row justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900">Update Project Details</h1>

@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaEllipsisV } from 'react-icons/fa';
-import DropdownMenu from './DropdownMenu';
-import { Link, useForm } from '@inertiajs/react'
+import DropdownMenu from '@/Components/DropdownMenu';
+import {  useForm } from '@inertiajs/react'
 import ViewUserDetailsModal from './ViewUserDetailsModal';
-
-const AVATAR_URL = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F013%2F042%2F571%2Foriginal%2Fdefault-avatar-profile-icon-social-media-user-photo-in-flat-style-vector.jpg&f=1&nofb=1';
 
 export default function UserCard({ user, role }) {
     const { delete: destroy } = useForm();

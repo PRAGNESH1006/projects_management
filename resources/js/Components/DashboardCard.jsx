@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, usePage } from '@inertiajs/react';
-import CreateUserModal from './CreateUserModal';
+import CreateUserModal from '../Pages/Users/Partials/CreateUserModal';
 
 export default function DashboardCard({ title, count, icon, color, viewRoute }) {
     const user = usePage().props.auth.user;
@@ -33,9 +33,9 @@ export default function DashboardCard({ title, count, icon, color, viewRoute }) 
                             )
                         }
 
-                        <Link 
-                        href={user?.role === "admin" ? route(viewRoute) : route(`${user?.role}.${title.toLowerCase()}`, user?.id)} 
-                        className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                        <Link
+                            href={user?.role === "admin" ? route(viewRoute) : route(`${user?.role}.${title.toLowerCase()}`, user?.id)}
+                            className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
                             View all
                         </Link>
                     </div>

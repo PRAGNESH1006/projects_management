@@ -26,8 +26,7 @@ export default function Create({ employees, projects, statuses }) {
     };
 
     return (
-        <AuthenticatedLayout>
-            <Head title="Create Task" />
+        <AuthenticatedLayout header={"Create Task"}>
 
             <div className="container mx-auto px-4 py-8 max-w-[700px]">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-6">
