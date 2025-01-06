@@ -18,7 +18,6 @@ export default function AuthenticatedLayout({ header, children }) {
 
         setFlashMessage(flash);
         setShow(true);
-        console.log(show)
         const timer = setTimeout(() => setShow(false), 5000);
 
         return () => clearTimeout(timer);

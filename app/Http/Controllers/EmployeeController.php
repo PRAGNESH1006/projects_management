@@ -47,19 +47,19 @@ class EmployeeController extends Controller
 
     public function index(): \Inertia\Response
     {
-        $employees = $this->userRepository->getPaginate(12, relations: ['createdBy'], where: ['role' => 'employee']);
+        $employees = $this->userRepository->getPaginate(8, relations: ['createdBy'], where: ['role' => 'employee']);
         return Inertia::render('Employee/Index', compact('employees'));
     }
 
     public function tasks(User $user): \Inertia\Response
     {
-        $tasks = $this->taskRepository->getTasksByEmployee($user->id);
+        $tasks = $this->taskRepository->getPaginate(8,relations:['project','assignedUser'], where:['assigned_to'=>$user->id]);
         return Inertia::render('Tasks/Index', compact('tasks'));
     }
 
     public function projects(User $user): \Inertia\Response
     {
-        $projects = $this->taskRepository->getProjectsByEmployee($user->id);
+        $projects =  $this->projectRepository->getProjectsByEmployeeWithPagination($user->id, 8);
         return Inertia::render('Projects/Index', compact('projects'));
     }
 }

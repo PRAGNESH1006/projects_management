@@ -26,7 +26,7 @@ class UserController extends BaseController
 
     public function index(): Response
     {
-        $users = $this->userRepository->getPaginate(10, relations: ['clientDetail', 'updatedBy']);
+        $users = $this->userRepository->getPaginate(8, relations: ['clientDetail', 'updatedBy']);
         return Inertia::render('Users/Index', compact('users'));
     }
 

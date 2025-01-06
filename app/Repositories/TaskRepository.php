@@ -13,13 +13,13 @@ class TaskRepository extends BaseRepository
         parent::__construct($model);
     }
 
-    public function getProjectsByEmployee($employeeId): Collection
+    public function getProjectsByEmployee($employeeId)
     {
         $tasks = $this->newQuery()
             ->where('assigned_to', $employeeId)
             ->with('project')
-            ->get();
-        return $tasks->pluck('project')->unique();
+            ->paginate(8);
+        return $tasks;
     }
 
     public function count(): int

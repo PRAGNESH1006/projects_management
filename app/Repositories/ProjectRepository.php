@@ -61,4 +61,15 @@ class ProjectRepository extends BaseRepository
             ->users
             ->select('id', 'name');
     }
+
+
+    public function getProjectsByEmployeeWithPagination(string $employeeId, int $perPage = 15)
+    {
+        return $this->newQuery()
+            ->whereHas('users', function ($query) use ($employeeId) {
+                $query->where('user_id', $employeeId);
+            })
+            ->with('client','creator') 
+            ->paginate($perPage);
+    }
 }

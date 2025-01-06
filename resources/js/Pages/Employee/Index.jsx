@@ -23,7 +23,7 @@ export default function Index({ employees }) {
                         ))
                     )}
                 </div>
-                <Pagination data={employees}/>
+                <Pagination className="relative my-2 rounded-lg"  data={employees}/>
             </div>
         </AuthenticatedLayout>
     );

@@ -26,7 +26,7 @@ class ProjectController extends BaseController
 
     public function index(): Response
     {
-        $projects = $this->projectRepository->getAll();
+        $projects = $this->projectRepository->getPaginate(8, relations:['creator','client']);
         return Inertia::render('Projects/Index', compact('projects'));
     }
 
@@ -106,14 +106,14 @@ class ProjectController extends BaseController
                     ->orWhereHas('tasks', function ($query) use ($searchTerm) {
                         $query->where('title', 'like', "%{$searchTerm}%");
                     })
-                    // ->orWhereHas('users', function ($query) use ($searchTerm) {
-                    //     $query->where('name', 'like', "%{$searchTerm}%");
-                    // })
+                    ->orWhereHas('users', function ($query) use ($searchTerm) {
+                        $query->where('name', 'like', "%{$searchTerm}%");
+                    })
                     ->orWhereHas('client', function ($query) use ($searchTerm) {
                         $query->where('name', 'like', "%{$searchTerm}%");
                     });
             })
-            ->get();
+            ->paginate(8);
         return Inertia::render('Projects/Index', compact('projects'));
     }
 }

@@ -79,7 +79,7 @@ export default function Pagination({ className, data }) {
                     aria-current="page"
                     className={classNames(
                       link.active
-                        ? 'z-10 text-white border-greenVogue-400 bg-greenVogue-400'
+                        ? 'z-10 text-gray-600 border-greenVogue-400 bg-greenVogue-400'
                         : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50',
                       'relative inline-flex items-center border px-4 py-2 text-sm font-medium focus:z-20'
                     )}

@@ -32,13 +32,13 @@ class TaskController extends BaseController
 
     public function index(): Response
     {
-        $tasks = $this->taskRepository->getAll();
+        $tasks = $this->taskRepository->getPaginate(8 , relations:['project','assignedUser']);
         return Inertia::render('Tasks/Index', compact('tasks'));
     }
 
     public function show(Task $task): Response
     {
-        $task = $this->taskRepository->getPaginate(10, relations: ['project', 'assignedUser', 'creator', 'updater']);
+        $task=$task->load('assignedUser','creator','updater','project');
         return Inertia::render('Tasks/Show', compact('task'));
     }
 
@@ -104,12 +104,12 @@ class TaskController extends BaseController
     public function search(): Response
     {
         $searchTerm = request('q');
-    
-       
+
+
         $tasks = Task::with(['project', 'assignedUser', 'creator'])
             ->where(function ($query) use ($searchTerm) {
                 $query->where('title', 'like', "%{$searchTerm}%")
-                    ->orWhere(' ', 'like', "%{$searchTerm}%")
+                    ->orWhere('description', 'like', "%{$searchTerm}%")
                     ->orWhereHas('project', function ($query) use ($searchTerm) {
                         $query->where('title', 'like', "%{$searchTerm}%");
                     })
@@ -120,8 +120,8 @@ class TaskController extends BaseController
                         $query->where('name', 'like', "%{$searchTerm}%");
                     });
             })
-            ->get();
-    
+            ->paginate(8);
+
         return Inertia::render('Tasks/Index', compact('tasks'));
-    }       
+    }
 }

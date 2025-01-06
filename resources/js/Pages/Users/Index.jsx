@@ -1,7 +1,7 @@
 import Pagination from '@/Components/Pagination';
 import UserCard from './Partials/UserCard';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {  usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import React from 'react';
 
 export default function Index({ users }) {
@@ -9,8 +9,8 @@ export default function Index({ users }) {
 
     return (
         <AuthenticatedLayout header={"Users"}>
-            <div className="min-h-screen flex flex-col">
-                <div className="container mx-auto px-4 flex-grow">
+            <div className="container mx-auto px-4 overflow-hidden">
+                <div className="container mx-auto flex-grow">
                     <div className="flex flex-col md:flex-row justify-between items-center py-4 mb-6 border-b">
                         <h1 className="text-3xl font-semibold text-gray-800">Users</h1>
                     </div>
@@ -21,10 +21,10 @@ export default function Index({ users }) {
                             users.data.map(user => (
                                 <UserCard key={user.id} user={user} role={authUser?.role} />
                             ))
-                        )}  
+                        )}
                     </div>
                 </div>
-                    <Pagination className="relative mx-14 my-2 rounded-lg" data={users} />
+                <Pagination className="relative my-2 rounded-lg" data={users} />
             </div>
         </AuthenticatedLayout>
     );
