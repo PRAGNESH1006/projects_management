@@ -37,7 +37,7 @@ abstract class BaseRepository implements RepositoryInterface
         string $attr_name,
         mixed $attr_value,
         array $relations = [],
-        bool $withTrashed = false, 
+        bool $withTrashed = false,
         array $selects = []
     ): Builder|Model|null {
         $query = $this->initiateQuery($relations, $withTrashed, $selects);
@@ -63,9 +63,17 @@ abstract class BaseRepository implements RepositoryInterface
         return $query;
     }
 
-    public function getPaginate(?int $n = null, array $relations = [], bool $withTrashed = false, array $selects = []): LengthAwarePaginator
-    {
+    public function getPaginate(
+        ?int $n = null,
+        array $relations = [],
+        bool $withTrashed = false,
+        array $selects = [],
+        array $where = []
+    ): LengthAwarePaginator {
         $query = $this->initiateQuery($relations, $withTrashed, $selects);
+        foreach ($where as $column => $value) {
+            $query->where($column, $value);
+        }
 
         return $query->paginate($n);
     }
@@ -108,7 +116,7 @@ abstract class BaseRepository implements RepositoryInterface
     public function update($id, array $inputs): mixed
     {
         $model = $this->getById($id);
-        
+
         if ($model) {
             $model->update($inputs);
 

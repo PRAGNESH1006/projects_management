@@ -16,7 +16,7 @@ interface RepositoryInterface
         array $selects = []
     ): mixed;
 
-    public function getPaginate(int $n, array $relations = [], bool $withTrashed = false, array $selects = []): mixed;
+    public function getPaginate(int $n, array $relations = [], bool $withTrashed = false, array $selects = [], array $where = []): mixed;
 
     public function store(array $inputs): mixed;
 

@@ -22,7 +22,11 @@ Route::get('/', function () {
 
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('/tasks/search', [TaskController::class, 'search'])->name('tasks.search');
     Route::resource('tasks', TaskController::class);
+
+    Route::get('/projects/search', [ProjectController::class, 'search'])->name('projects.search');
     Route::resource('projects', ProjectController::class);
 
     Route::middleware(['role:admin'])->group(function () {

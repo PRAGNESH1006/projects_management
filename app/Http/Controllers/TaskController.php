@@ -11,6 +11,7 @@ use App\Repositories\TaskRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\ProjectRepository;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Throwable;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -37,10 +38,10 @@ class TaskController extends BaseController
 
     public function show(Task $task): Response
     {
-        $task=$task->load('project','assignedUser','creator','updater',);
-        return Inertia::render('Tasks/Show', compact('task',));
+        $task = $this->taskRepository->getPaginate(10, relations: ['project', 'assignedUser', 'creator', 'updater']);
+        return Inertia::render('Tasks/Show', compact('task'));
     }
- 
+
     public function create(): Response
     {
         $statuses = TaskStatusEnum::options();
@@ -67,10 +68,10 @@ class TaskController extends BaseController
     {
         $statuses = TaskStatusEnum::options();
         $task = $this->taskRepository->getById($task->id);
-        $project=$task->project;
+        $project = $task->project;
         $employees = $this->userRepository->getById($task->assigned_to);
 
-        return Inertia::render('Tasks/Edit', compact('task', 'employees', 'statuses','project'));
+        return Inertia::render('Tasks/Edit', compact('task', 'employees', 'statuses', 'project'));
     }
 
     public function update(Task $task, UpdateTaskRequest $request): RedirectResponse
@@ -100,4 +101,27 @@ class TaskController extends BaseController
             return $this->sendRedirectError(route('tasks.index'), 'Failed to delete task::' . $e->getMessage());
         }
     }
+    public function search(): Response
+    {
+        $searchTerm = request('q');
+    
+       
+        $tasks = Task::with(['project', 'assignedUser', 'creator'])
+            ->where(function ($query) use ($searchTerm) {
+                $query->where('title', 'like', "%{$searchTerm}%")
+                    ->orWhere(' ', 'like', "%{$searchTerm}%")
+                    ->orWhereHas('project', function ($query) use ($searchTerm) {
+                        $query->where('title', 'like', "%{$searchTerm}%");
+                    })
+                    ->orWhereHas('assignedUser', function ($query) use ($searchTerm) {
+                        $query->where('name', 'like', "%{$searchTerm}%");
+                    })
+                    ->orWhereHas('creator', function ($query) use ($searchTerm) {
+                        $query->where('name', 'like', "%{$searchTerm}%");
+                    });
+            })
+            ->get();
+    
+        return Inertia::render('Tasks/Index', compact('tasks'));
+    }       
 }

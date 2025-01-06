@@ -19,7 +19,7 @@ class EmployeeController extends Controller
     protected EmployeeDashboardService $dashboardService;
 
 
-    public function __construct(UserRepository $userRepository, TaskRepository $taskRepository, ProjectRepository $projectRepository,EmployeeDashboardService $dashboardService)
+    public function __construct(UserRepository $userRepository, TaskRepository $taskRepository, ProjectRepository $projectRepository, EmployeeDashboardService $dashboardService)
     {
         $this->userRepository = $userRepository;
         $this->taskRepository = $taskRepository;
@@ -27,11 +27,11 @@ class EmployeeController extends Controller
         $this->dashboardService = $dashboardService;
     }
 
-    
+
     public function show()
     {
         $data = $this->dashboardService->getDashboardData(Auth::id());
-    
+
         return Inertia::render('Employee/Dashboard', [
             'tasksCount' => $data['tasksCount'],
             'completedTasks' => $data['completedTasks'],
@@ -44,10 +44,10 @@ class EmployeeController extends Controller
             'projectsCount' => $data['projectsCount'],
         ]);
     }
-    
+
     public function index(): \Inertia\Response
     {
-        $employees = $this->userRepository->getAllUserByRole('employee');
+        $employees = $this->userRepository->getPaginate(12, relations: ['createdBy'], where: ['role' => 'employee']);
         return Inertia::render('Employee/Index', compact('employees'));
     }
 

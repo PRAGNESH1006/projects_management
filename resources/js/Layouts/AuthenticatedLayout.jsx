@@ -3,17 +3,30 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
+    const { flash } = usePage().props;
+    const [flashMessage, setFlashMessage] = useState(null);
+    const [show, setShow] = useState(false);
 
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+
+    useEffect(() => {
+        if (!flash) return;
+
+        setFlashMessage(flash);
+        setShow(true);
+        console.log(show)
+        const timer = setTimeout(() => setShow(false), 5000);
+
+        return () => clearTimeout(timer);
+    }, [flash]);
 
     return (
         <div className="min-h-screen bg-gray-100 ">
-            <Head title={header}/>
+            <Head title={header} />
             <nav className="border-b border-gray-100 bg-white sticky top-0 z-50">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
@@ -76,7 +89,17 @@ export default function AuthenticatedLayout({ header, children }) {
                                 )}
                             </div>
                         </div>
-
+                        {show && flashMessage?.message && (
+                            <div
+                                className={`fixed top-4 left-4 px-4 py-3 rounded-lg shadow-lg text-white ${flashMessage.message.status === "success" ? "bg-green-500" : "bg-red-500"
+                                    }`}
+                            >
+                                <p className="font-bold">
+                                    {flashMessage.message.status === "success" ? "Success" : "Error"}
+                                </p>
+                                <p>{flashMessage.message.description}</p>
+                            </div>
+                        )}
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">
                             <div className="relative ms-3">
                                 <Dropdown>
@@ -194,7 +217,9 @@ export default function AuthenticatedLayout({ header, children }) {
             </nav>
 
             <main className='scrollable'>
-                {children}
+                <div className='container mx-auto px-4 pb-2'>
+                    {children}
+                </div>
             </main>
         </div>
     );

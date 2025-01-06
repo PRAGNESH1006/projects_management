@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import DashboardCard from '@/Components/DashboardCard';
 import RecentSection from '@/Components/RecentSection';

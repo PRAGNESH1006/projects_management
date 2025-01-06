@@ -26,13 +26,13 @@ class UserController extends BaseController
 
     public function index(): Response
     {
-        $users = $this->userRepository->getAll()->load('clientDetail');
+        $users = $this->userRepository->getPaginate(10, relations: ['clientDetail', 'updatedBy']);
         return Inertia::render('Users/Index', compact('users'));
     }
 
     public function show(User $user): Response
     {
-        $user = $user->load('clientDetail','updatedBy');
+        $user = $user->load('clientDetail', 'updatedBy');
 
         return Inertia::render('Users/Show', compact('user'));
     }
@@ -54,14 +54,14 @@ class UserController extends BaseController
             }
             DB::commit();
             if ($user->role->value === 'admin') {
-                return $this->sendRedirectResponse(route('users.index'), 'User and Client Details Added Successfully');
+                return $this->sendRedirectResponse(route('users.index'), $user->role->value . ' Details Added Successfully');
             } else {
-                return $this->sendRedirectResponse(route($user->role->value . '.index'), 'User and Client Details Added Successfully');
+                return $this->sendRedirectResponse(route($user->role->value . '.index'), $user->role->value . ' Details Added Successfully');
             }
         } catch (Throwable $e) {
             Log::error('Transaction Failed:', ['error' => $e->getMessage()]);
             DB::rollBack();
-            return $this->sendRedirectError(route('users.index'), 'Failed to add user and client details: ' . $e->getMessage());
+            return $this->sendRedirectError(route('users.index'), 'Failed to add ' . $user->role->value . ' details: ' . $e->getMessage());
         }
     }
 
@@ -88,10 +88,10 @@ class UserController extends BaseController
             }
             DB::commit();
 
-            return $this->sendRedirectResponse(route('users.show', [$user->id]), 'User Updated Successfully');
+            return $this->sendRedirectResponse(route($user->role->value . '.index', [$user->id]), $user->role->value . ' details Updated Successfully');
         } catch (Throwable $e) {
             DB::rollBack();
-            return $this->sendRedirectError(route('users.edit', $user->id), 'Failed to update user: ' . $e->getMessage());
+            return $this->sendRedirectError(route('users.edit', $user->id), 'Failed to update' . $user->role->value . ': ' . $e->getMessage());
         }
     }
 
@@ -103,10 +103,10 @@ class UserController extends BaseController
         try {
             $this->userRepository->destroy($user->id);
             DB::commit();
-            return $this->sendRedirectResponse(route($user->role->value . '.index'), 'User Deleted Successfully');
+            return $this->sendRedirectResponse(route($user->role->value . '.index'), $user->role->value . ' Deleted Successfully');
         } catch (Throwable $e) {
             DB::rollBack();
-            return $this->sendRedirectError(route('users.index'), 'Failed to delete user: ' . $e->getMessage());
+            return $this->sendRedirectError(route('users.index'), 'Failed to delete ' . $user->role->value . ': ' . $e->getMessage());
         }
     }
 }

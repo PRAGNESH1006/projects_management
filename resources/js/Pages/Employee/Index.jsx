@@ -3,6 +3,7 @@ import CreateUserModal from '@/Pages/Users/Partials/CreateUserModal';
 import UserCard from '@/Pages/Users/Partials/UserCard';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { usePage } from '@inertiajs/react';
+import Pagination from '@/Components/Pagination';
 
 export default function Index({ employees }) {
     const authUser = usePage().props.auth.user;
@@ -14,14 +15,15 @@ export default function Index({ employees }) {
                     <CreateUserModal role={"employee"} />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {employees.length === 0 ? (
+                    {employees.data.length === 0 ? (
                         <div className="col-span-full text-center text-gray-500">No employees found</div>
                     ) : (
-                        employees.map(employee => (
+                        employees.data.map(employee => (
                             <UserCard key={employee.id} user={employee} role={authUser?.role} />
                         ))
                     )}
                 </div>
+                <Pagination data={employees}/>
             </div>
         </AuthenticatedLayout>
     );

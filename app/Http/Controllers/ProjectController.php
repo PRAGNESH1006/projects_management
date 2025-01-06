@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use Throwable;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class ProjectController extends BaseController
 {
@@ -23,31 +24,31 @@ class ProjectController extends BaseController
         $this->projectRepository = $projectRepository;
     }
 
-    public function index(): \Inertia\Response
+    public function index(): Response
     {
         $projects = $this->projectRepository->getAll();
         return Inertia::render('Projects/Index', compact('projects'));
     }
 
-    public function show(Project $project): \Inertia\Response
+    public function show(Project $project): Response
     {
         $project->load('users', 'client', 'creator', 'updater', 'tasks');
         return Inertia::render('Projects/Show', compact('project'));
     }
 
-    public function create(): \Inertia\Response
+    public function create(): Response
     {
         $clients = $this->userRepository->getUsersWithNameId('client');
         $employees = $this->userRepository->getUsersWithNameId('employee');
         return Inertia::render('Projects/Create', compact('clients', 'employees'));
     }
 
-    public function edit(Project $project): \Inertia\Response
+    public function edit(Project $project): Response
     {
-        $clients = $this->userRepository->getUsersWithNameId('client'); 
+        $clients = $this->userRepository->getUsersWithNameId('client');
         $employees = $this->userRepository->getUsersWithNameId('employee');
         $projectEmployees = $this->projectRepository->getProjectEmployees($project->id);
-        return Inertia::render('Projects/Edit', compact('project', 'clients', 'employees' ,'projectEmployees'));
+        return Inertia::render('Projects/Edit', compact('project', 'clients', 'employees', 'projectEmployees'));
     }
 
     public function store(StoreProjectRequest $request): RedirectResponse
@@ -94,5 +95,25 @@ class ProjectController extends BaseController
             DB::rollBack();
             return $this->sendRedirectError(route('projects.index'), $e->getMessage());
         }
+    }
+    public function search(): Response
+    {
+        $searchTerm = request('q');
+        $projects = Project::with(['tasks', 'users', 'client'])
+            ->where(function ($query) use ($searchTerm) {
+                $query->where('title', 'like', "%{$searchTerm}%")
+                    ->orWhere('description', 'like', "%{$searchTerm}%")
+                    ->orWhereHas('tasks', function ($query) use ($searchTerm) {
+                        $query->where('title', 'like', "%{$searchTerm}%");
+                    })
+                    // ->orWhereHas('users', function ($query) use ($searchTerm) {
+                    //     $query->where('name', 'like', "%{$searchTerm}%");
+                    // })
+                    ->orWhereHas('client', function ($query) use ($searchTerm) {
+                        $query->where('name', 'like', "%{$searchTerm}%");
+                    });
+            })
+            ->get();
+        return Inertia::render('Projects/Index', compact('projects'));
     }
 }

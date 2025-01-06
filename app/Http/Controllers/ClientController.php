@@ -8,11 +8,13 @@ use App\Repositories\ProjectRepository;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
+use function Laravel\Prompts\select;
+
 class ClientController extends Controller
 {
     protected UserRepository $userRepository;
     protected ProjectRepository $projectRepository;
- 
+
     public function __construct(UserRepository $userRepository, ProjectRepository $projectRepository)
     {
         $this->userRepository = $userRepository;
@@ -25,10 +27,10 @@ class ClientController extends Controller
         $tasks = $this->projectRepository->getTasksByClient(Auth::user()->id);
         return Inertia::render('Client/Dashboard', compact('projects', 'tasks'));
     }
-  
+
     public function index(): \Inertia\Response
     {
-        $clients = $this->userRepository->getAllUserByRole('client')->load('clientDetail');
+        $clients = $this->userRepository->getPaginate(12, relations: ['clientDetail'], where: ['role' => 'client']);
         return Inertia::render('Client/Index', compact('clients'));
     }
 

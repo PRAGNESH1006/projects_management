@@ -3,9 +3,11 @@ import UserCard from '@/Pages/Users/Partials/UserCard';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { usePage } from '@inertiajs/react';
 import React from 'react';
+import Pagination from '@/Components/Pagination';
 
 export default function Index({ clients }) {
     const user = usePage().props.auth.user;
+    console.log(clients)
 
     return (
         <AuthenticatedLayout  header={"Clients"}>
@@ -16,14 +18,15 @@ export default function Index({ clients }) {
 
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {clients.length === 0 ? (
+                    {clients.data.length === 0 ? (
                         <div className="col-span-full text-center text-gray-500">No clients found</div>
                     ) : (
-                        clients.map(client => (
+                        clients.data.map(client => (
                             <UserCard key={client.id} user={client} role={user?.role} />
                         ))
                     )}
                 </div>
+                <Pagination data={clients}/>
             </div>
         </AuthenticatedLayout>
     );
