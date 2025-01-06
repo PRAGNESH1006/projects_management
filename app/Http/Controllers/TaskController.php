@@ -79,7 +79,7 @@ class TaskController extends BaseController
         try {
             $this->taskRepository->update($task->id, $request->getUpdateableFields($task->project_id));
             DB::commit();
-            return $this->sendRedirectResponse(route('tasks.show', [$task->id]), 'Task Updated Successfully');
+            return $this->sendRedirectResponse(route('tasks.index', [$task->id]), 'Task Updated Successfully');
         } catch (Throwable $e) {
             DB::rollBack();
             Log::error('Task update failed: ' . $e->getMessage());

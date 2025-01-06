@@ -1,4 +1,4 @@
-import UserCard from '@/Components/UserCard';
+import UserCard from './Partials/UserCard';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, usePage } from '@inertiajs/react';
 import React from 'react';
@@ -6,8 +6,7 @@ import React from 'react';
 export default function Index({ users }) {
     const authUser = usePage().props.auth.user;
     return (
-        <AuthenticatedLayout>
-            <Head title="Users" />
+        <AuthenticatedLayout header={"Users"}>
             <div className='container mx-auto px-4'>
                 <div className="flex flex-col md:flex-row justify-between items-center py-4 mb-6 border-b">
                     <h1 className="text-3xl font-semibold text-gray-800">Users</h1>

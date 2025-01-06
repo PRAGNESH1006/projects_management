@@ -28,10 +28,10 @@ export default function Dashboard({
         },
         {
             data: [
-                { name: 'Completed', value: allTaskCompletionStats.completed, color: '#10B981' },
-                { name: 'In Progress', value: allTaskCompletionStats.in_progress, color: '#F59E0B' },
-                { name: 'Pending', value: allTaskCompletionStats.pending, color: '#F87171' },
-                { name: 'Overdue', value: allTaskCompletionStats.overdue, color: '#EF4444' }
+                { name: 'Completed Tasks', value: allTaskCompletionStats.completed, color: '#10B981' },
+                { name: 'In Progress Tasks', value: allTaskCompletionStats.in_progress, color: '#F59E0B' },
+                { name: 'Pending Tasks', value: allTaskCompletionStats.pending, color: '#F87171' },
+                { name: 'Overdue Tasks', value: allTaskCompletionStats.overdue, color: '#EF4444' }
             ]
         }
     ];

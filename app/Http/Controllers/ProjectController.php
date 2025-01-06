@@ -76,7 +76,7 @@ class ProjectController extends BaseController
                 $project->users()->sync($request->employee_ids);
             }
             DB::commit();
-            return $this->sendRedirectResponse(route('projects.show', [$project->id]), 'Project Updated Successfully');
+            return $this->sendRedirectResponse(route('projects.index', [$project->id]), 'Project Updated Successfully');
         } catch (Throwable $e) {
             DB::rollBack();
             return $this->sendRedirectBackError($e->getMessage());

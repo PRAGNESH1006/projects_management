@@ -25,18 +25,17 @@ export default function Edit({ user }) {
   };
 
   return (
-    <AuthenticatedLayout>
-      <Head title="Edit User" />
+    <AuthenticatedLayout header={"Edit User"}>
       <div className="container mx-auto px-6 py-12 max-w-2xl">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900">Update {user?.role.charAt(0).toUpperCase() + user?.role.slice(1)} Details</h1>
           <div className='space-x-4'>
-          <Link
-            href={route(`${user?.role}.index`)}
-            className="mt-4 md:mt-0 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1"  
-          >
-            Back 
-          </Link>
+            <Link
+              href={route(`${user?.role}.index`)}
+              className="mt-4 md:mt-0 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1"
+            >
+              Back
+            </Link>
           </div>
         </div>
         <div className="bg-gray-50 shadow-lg rounded-lg p-8">
@@ -93,7 +92,7 @@ export default function Edit({ user }) {
               className=" py-3 px-6  bg-indigo-600 text-white font-bold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
               disabled={processing}
             >
-              Update {user?.role.charAt(0).toUpperCase() + user?.role.slice(1)} 
+              Update {user?.role.charAt(0).toUpperCase() + user?.role.slice(1)}
             </PrimaryButton>
           </form>
         </div>

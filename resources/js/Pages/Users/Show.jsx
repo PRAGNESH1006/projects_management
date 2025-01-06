@@ -1,15 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
+import moment from 'moment';
 import React from 'react';
 
 function Show({ user }) {
-  console.log(user);
-  const formatDate = (date) => {
-    return date ? new Date(date).toLocaleDateString() : 'N/A';
-  }
   return (
-    <AuthenticatedLayout>
-      <Head title="User Details" />
+    <AuthenticatedLayout header={"User Details"}>
       <div className="container mx-auto px-4 py-8 max-w-[700px]">
         <div className="flex flex-col md:flex-row justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900">{user?.role.charAt(0).toUpperCase() + user?.role.slice(1)} Details</h1>
@@ -74,7 +70,7 @@ function Show({ user }) {
               <label htmlFor="updated_at" className="block text-sm font-medium text-gray-700">
                 Updated At
               </label>
-              <p className="mt-1 block w-full">{formatDate(user?.updated_at) || 'N/A'}</p>
+              <p className="mt-1 block w-full">{moment(user?.updated_at).format("dddd, MMMM Do YYYY") || 'N/A'}</p>
             </div>
 
             <div>

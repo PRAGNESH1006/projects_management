@@ -6,6 +6,7 @@ function getValueObj(options, val) {
     return value == val;
   });
 }
+console.log(getValueObj)
 
 function ReactSelect({
   closeMenuOnSelect = true,
