@@ -22,9 +22,10 @@ function TaskForm({ employees = [], statuses = null, task = null, projects, proj
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        task ? patch(route('tasks.update', task.id)) : post(route('tasks.store'))
-        reset()
-
+        task ? patch(route('tasks.update', task.id)) : post(route('tasks.store'),{
+            onSuccess: () => reset()
+        })
+        
     };
     return (
         <AuthenticatedLayout header={task ? "Update Task Details " : "Create New Task"}>

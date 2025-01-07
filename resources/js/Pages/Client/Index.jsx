@@ -7,7 +7,6 @@ import Pagination from '@/Components/Pagination';
 
 export default function Index({ clients }) {
     const user = usePage().props.auth.user;
-    console.log(clients)
 
     return (
         <AuthenticatedLayout  header={"Clients"}>

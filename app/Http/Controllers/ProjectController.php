@@ -26,13 +26,13 @@ class ProjectController extends BaseController
 
     public function index(): Response
     {
-        $projects = $this->projectRepository->getPaginate(8, relations:['creator','client']);
+        $projects = $this->projectRepository->getPaginate(8, relations: ['creator', 'client']);
         return Inertia::render('Projects/Index', compact('projects'));
     }
 
     public function show(Project $project): Response
     {
-        $project->load('users', 'client', 'creator', 'updater', 'tasks');
+        $project->load('users', 'client', 'creator', 'updater', 'tasks','users');
         return Inertia::render('Projects/Show', compact('project'));
     }
 
@@ -99,21 +99,7 @@ class ProjectController extends BaseController
     public function search(): Response
     {
         $searchTerm = request('q');
-        $projects = Project::with(['tasks', 'users', 'client'])
-            ->where(function ($query) use ($searchTerm) {
-                $query->where('title', 'like', "%{$searchTerm}%")
-                    ->orWhere('description', 'like', "%{$searchTerm}%")
-                    ->orWhereHas('tasks', function ($query) use ($searchTerm) {
-                        $query->where('title', 'like', "%{$searchTerm}%");
-                    })
-                    ->orWhereHas('users', function ($query) use ($searchTerm) {
-                        $query->where('name', 'like', "%{$searchTerm}%");
-                    })
-                    ->orWhereHas('client', function ($query) use ($searchTerm) {
-                        $query->where('name', 'like', "%{$searchTerm}%");
-                    });
-            })
-            ->paginate(8);
+        $projects = $this->projectRepository->getSearch($searchTerm);
         return Inertia::render('Projects/Index', compact('projects'));
     }
 }

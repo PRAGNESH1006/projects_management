@@ -107,19 +107,16 @@ const ProjectDetails = ({ project }) => {
                                                 <p className="text-gray-600 mt-2">{task.description}</p>
                                                 <div className="mt-4 flex justify-between items-center">
                                                     <span
-                                                        className={`px-3 py-1 text-xs font-semibold rounded-full ${
-                                                            task.status === 'completed'
+                                                        className={`px-3 py-1 text-xs font-semibold rounded-full ${task.status === 'completed'
                                                                 ? 'bg-green-100 text-green-800'
                                                                 : task.status === 'in_progress'
-                                                                ? 'bg-yellow-100 text-yellow-800'
-                                                                : 'bg-red-100 text-red-800'
-                                                        }`}
+                                                                    ? 'bg-yellow-100 text-yellow-800'
+                                                                    : 'bg-red-100 text-red-800'
+                                                            }`}
                                                     >
                                                         {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
                                                     </span>
-                                                    <span className="text-sm text-gray-500">
-                                                        {task.assignedUser ? task.assignedUser.name : 'Unassigned'}
-                                                    </span>
+                                                    <Link className='text-blue-700 font-semibold hover:text-blue-400' href={route('tasks.show',task.id)}>View</Link>
                                                 </div>
                                                 <p className="text-xs text-gray-400 mt-2">
                                                     Created: {new Date(task.created_at).toLocaleDateString()}
@@ -145,6 +142,7 @@ const ProjectDetails = ({ project }) => {
                                                 </div>
                                                 <p className="font-medium text-gray-900">{user.name}</p>
                                                 <p className="text-sm text-gray-600">{user.role}</p>
+                                                <Link className="text-sm text-blue-600 hover:text-blue-400" href={route('users.show',user.id)}>view</Link>
                                             </div>
                                         ))}
                                     </div>

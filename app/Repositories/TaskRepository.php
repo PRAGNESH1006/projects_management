@@ -114,4 +114,35 @@ class TaskRepository extends BaseRepository
             ->limit($limit)
             ->get(['id', 'title', 'status', 'updated_at']);
     }
+
+    public function getTasksByCLient($id)
+    {
+        return $this->newQuery()
+            ->whereHas('project', function ($query) use ($id) {
+                $query->where('client_id', $id);
+            })
+            ->with('project', 'assignedUser', 'client')
+            ->paginate(8);
+    }
+    public function getSearch($searchTerm)
+    {
+        return $this->newQuery()
+            ->with(['project', 'assignedUser', 'creator', 'client'])
+            ->where(function ($query) use ($searchTerm) {
+                $query->where('title', 'like', "%{$searchTerm}%")
+                    ->orWhereHas('project', function ($query) use ($searchTerm) {
+                        $query->where('title', 'like', "%{$searchTerm}%");
+                    })
+                    ->orWhereHas('assignedUser', function ($query) use ($searchTerm) {
+                        $query->where('name', 'like', "%{$searchTerm}%");
+                    })
+                    ->orWhereHas('creator', function ($query) use ($searchTerm) {
+                        $query->where('name', 'like', "%{$searchTerm}%");
+                    })
+                    ->orWhereHas('client', function ($query) use ($searchTerm) {
+                        $query->where('name', 'like', "%{$searchTerm}%");
+                    });
+            })
+            ->paginate(8);
+    }
 }

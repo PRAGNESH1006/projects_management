@@ -6,6 +6,7 @@ use App\Enums\TaskStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Task extends Model
@@ -45,6 +46,19 @@ class Task extends Model
             }
         });
     }
+
+    public function client()
+    {
+        return $this->hasOneThrough(
+            User::class,
+            Project::class,
+            'id',
+            'id',
+            'project_id',
+            'client_id'
+        );
+    }
+
 
     public function project(): BelongsTo
     {

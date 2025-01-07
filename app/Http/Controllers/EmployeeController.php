@@ -53,7 +53,7 @@ class EmployeeController extends Controller
 
     public function tasks(User $user): \Inertia\Response
     {
-        $tasks = $this->taskRepository->getPaginate(8,relations:['project','assignedUser'], where:['assigned_to'=>$user->id]);
+        $tasks = $this->taskRepository->getPaginate(8,relations:['project','assignedUser','client'], where:['assigned_to'=>$user->id]);
         return Inertia::render('Tasks/Index', compact('tasks'));
     }
 

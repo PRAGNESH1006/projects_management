@@ -8,6 +8,8 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use App\Mail\TaskDueDateReminderMail;
+use App\Models\Task;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -19,7 +21,14 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
+Route::get('/email-preview/{task}', function (Task $task) {
+    $task->load('assignedUser');
+    if ($task->assignedUser) {
+        return new TaskDueDateReminderMail($task);
+    } else {
+        return response()->json(['error' => 'Task does not have an assigned user.'], 404);
+    }
+}); 
 
 Route::middleware('auth')->group(function () {
 

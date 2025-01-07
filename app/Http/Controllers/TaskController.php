@@ -6,12 +6,13 @@ use App\Enums\TaskStatusEnum;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Jobs\SendDueDateReminderJob;
 use App\Models\Task;
 use App\Repositories\TaskRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\ProjectRepository;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Throwable;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -32,13 +33,13 @@ class TaskController extends BaseController
 
     public function index(): Response
     {
-        $tasks = $this->taskRepository->getPaginate(8 , relations:['project','assignedUser']);
+        $tasks = $this->taskRepository->getPaginate(8, relations: ['project', 'assignedUser', 'client']);
         return Inertia::render('Tasks/Index', compact('tasks'));
     }
 
     public function show(Task $task): Response
     {
-        $task=$task->load('assignedUser','creator','updater','project');
+        $task = $task->load('assignedUser', 'creator', 'updater', 'project');
         return Inertia::render('Tasks/Show', compact('task'));
     }
 
@@ -76,11 +77,16 @@ class TaskController extends BaseController
 
     public function update(Task $task, UpdateTaskRequest $request): RedirectResponse
     {
+        $user = Auth::user();
         DB::beginTransaction();
         try {
             $this->taskRepository->update($task->id, $request->getUpdateableFields($task->project_id));
             DB::commit();
-            return $this->sendRedirectResponse(route('tasks.index', [$task->id]), 'Task Updated Successfully');
+            if ($user->role->value === 'admin') {
+                return $this->sendRedirectResponse(route('tasks.index', [$task->id]), 'Task Updated Successfully');
+            } else {
+                return $this->sendRedirectResponse(route($user->role->value . '.tasks', [$user->id]), 'Task Updated Successfully');
+            }
         } catch (Throwable $e) {
             DB::rollBack();
             Log::error('Task update failed: ' . $e->getMessage());
@@ -104,24 +110,7 @@ class TaskController extends BaseController
     public function search(): Response
     {
         $searchTerm = request('q');
-
-
-        $tasks = Task::with(['project', 'assignedUser', 'creator'])
-            ->where(function ($query) use ($searchTerm) {
-                $query->where('title', 'like', "%{$searchTerm}%")
-                    ->orWhere('description', 'like', "%{$searchTerm}%")
-                    ->orWhereHas('project', function ($query) use ($searchTerm) {
-                        $query->where('title', 'like', "%{$searchTerm}%");
-                    })
-                    ->orWhereHas('assignedUser', function ($query) use ($searchTerm) {
-                        $query->where('name', 'like', "%{$searchTerm}%");
-                    })
-                    ->orWhereHas('creator', function ($query) use ($searchTerm) {
-                        $query->where('name', 'like', "%{$searchTerm}%");
-                    });
-            })
-            ->paginate(8);
-
+        $tasks = $this->taskRepository->getSearch($searchTerm);
         return Inertia::render('Tasks/Index', compact('tasks'));
     }
 }

@@ -59,7 +59,7 @@ export default function ProjectCard({ project, role }) {
             </div>
 
             <p className="text-gray-600 text-sm mt-2  overflow-hidden">{shortDescription}</p>
-            <p className="text-gray-600 text-sm mt-2  overflow-hidden">Client name: <span className='text-black font-bold'>{project.client.name}</span></p>
+            <p className="text-gray-600 text-sm mt-2  overflow-hidden">Client: <span className='text-black font-bold'>{project.client.name}</span></p>
             <p className="text-gray-600 text-sm mt-2  overflow-hidden">Created by: <span className='text-black font-bold'>{project.creator.name}</span></p>
 
             <div className="mt-4 flex justify-end">

@@ -4,7 +4,6 @@ import { FaEllipsisV } from 'react-icons/fa';
 import DropdownMenu from '@/Components/DropdownMenu';
 
 export default function TaskCard({ task, role }) {
-    console.log(task)
     const { delete: destroy } = useForm();
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -62,8 +61,7 @@ export default function TaskCard({ task, role }) {
             <p className="text-gray-600 text-sm mt-2  overflow-hidden">{shortDescription}</p>
             <p className="text-gray-600 text-sm mt-2  overflow-hidden">Employee: <span className='text-black font-bold'>{task.assigned_user.name}</span></p>
             <p className="text-gray-600 text-sm mt-2  overflow-hidden">Project: <span className='text-black font-bold'>{task.project.title}</span></p>
-
-
+            <p className="text-gray-600 text-sm mt-2  overflow-hidden">Client: <span className='text-black font-bold'>{task.client.name}</span></p>
 
             <div className="mt-4 flex justify-between items-center " >
                 <span className={`text-xs text-center font-semibold  px-2.5 py-0.5 rounded ${getStatusColor(task.status)}`}>

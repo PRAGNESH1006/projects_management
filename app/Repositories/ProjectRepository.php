@@ -62,14 +62,35 @@ class ProjectRepository extends BaseRepository
             ->select('id', 'name');
     }
 
-
-    public function getProjectsByEmployeeWithPagination(string $employeeId, int $perPage = 15)
+    public function getProjectsByEmployeeWithPagination(string $employeeId)
     {
         return $this->newQuery()
             ->whereHas('users', function ($query) use ($employeeId) {
                 $query->where('user_id', $employeeId);
             })
-            ->with('client','creator') 
-            ->paginate($perPage);
+            ->with('client', 'creator')
+            ->paginate(8);
+    }
+
+    public function getSearch($searchTerm)
+    {
+        return $this->newQuery()
+            ->with(['tasks', 'users', 'client', 'creator'])
+            ->where(function ($query) use ($searchTerm) {
+                $query->where('title', 'like', "%{$searchTerm}%")
+                    ->orWhereHas('tasks', function ($query) use ($searchTerm) {
+                        $query->where('title', 'like', "%{$searchTerm}%");
+                    })
+                    ->orWhereHas('users', function ($query) use ($searchTerm) {
+                        $query->where('name', 'like', "%{$searchTerm}%");
+                    })
+                    ->orWhereHas('creator', function ($query) use ($searchTerm) {
+                        $query->where('name', 'like', "%{$searchTerm}%");
+                    })
+                    ->orWhereHas('client', function ($query) use ($searchTerm) {
+                        $query->where('name', 'like', "%{$searchTerm}%");
+                    });
+            })
+            ->paginate(8);;
     }
 }

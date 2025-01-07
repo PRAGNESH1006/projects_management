@@ -18,7 +18,7 @@ export default function Index({ tasks }) {
         <AuthenticatedLayout header={"Tasks"}>
             <div className='container mx-auto px-4 overflow-hidden'>
                 <div className="flex flex-col md:flex-row justify-between items-center py-4 mb-6 border-b">
-                    <Link href={route('tasks.index')} className="text-3xl font-semibold text-gray-800">Tasks</Link>
+                    <Link href={authUser?.role==='admin'?route('tasks.index'):route(`${authUser?.role}.tasks`, authUser?.id)} className="text-3xl font-semibold text-gray-800">Tasks</Link>
                     <div className="flex space-x-2 items-center ">
                         <form onSubmit={handleSearch} className="flex items-center space-x-2">
                             <input

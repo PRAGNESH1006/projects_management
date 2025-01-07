@@ -21,7 +21,9 @@ const ProjectForm = ({ clients = [], employees = [], project = null, projectEmpl
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        project ? patch(route('projects.update', project.id)) : post(route('projects.store'))
+        project ? patch(route('projects.update', project.id)) : post(route('projects.store'), {
+            onSuccess: () => reset()
+        })
     };
 
     return (

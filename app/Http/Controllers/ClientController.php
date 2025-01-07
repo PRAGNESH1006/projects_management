@@ -44,7 +44,8 @@ class ClientController extends Controller
 
     public function tasks(User $user): \Inertia\Response
     {
-        $tasks = $this->projectRepository->getTasksByClient($user->id);
+        $tasks = $this->taskRepository->getTasksByCLient($user->id);
         return Inertia::render('Tasks/Index', compact('tasks'));
     }
+   
 }
